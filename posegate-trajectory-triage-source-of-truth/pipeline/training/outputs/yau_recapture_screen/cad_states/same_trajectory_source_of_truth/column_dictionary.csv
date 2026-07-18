@@ -1,0 +1,117 @@
+column,pandas_dtype,category,description
+audit_row_id,int64,identity,Stable 1-based row number in the generated audit table.
+complex_id,str,identity,Canonical protein|ligand|pocket|replica join key.
+protein,str,identity,Protein identifier and LOPO grouping unit.
+ligand,str,identity,Ligand identifier.
+pocket,str,identity,Predicted pocket identifier.
+replica,str,identity,Replica directory identifier.
+audit_universe,str,audit assertion,Row-level consistency or equivalence check named by the column.
+in_validation3_usable_feature_cohort,bool,cohort membership,Membership in the named upstream cohort or artifact.
+in_current_59row_matched_cohort,bool,cohort membership,Membership in the named upstream cohort or artifact.
+in_checkpoint_artifact,bool,cohort membership,Membership in the named upstream cohort or artifact.
+separate_launch_topology_path,str,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_trajectory_path,str,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_qc_status,str,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_usable_20ns,bool,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_notes,str,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_n_terminal_pose_frames,float64,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_pose_rmsd_18_20_A,float64,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_centroid_displacement_18_20_A,float64,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_pocket_retention_18_20,float64,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_n_baseline_neighbors,int64,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+separate_launch_structural_state_20ns,str,separate-launch source/feature,Field from the separately launched 20 ns trajectory; exact quantity is encoded in the column name.
+late_pose_rmsd_median_last30pct_A,float64,legacy outcome,Cached median corrected ligand heavy-atom RMSD over the final 30% of available frames; valid as nominal 70-100 ns only when coverage is complete.
+late_centroid_displacement_median_last30pct_A,float64,legacy outcome diagnostic,Cached median corrected unweighted ligand heavy-atom centroid displacement over the final 30% of available frames.
+late_outcome_usable_stored,object,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_pose_retained_stored_legacy,Int64,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+existing_contact_label_unstable,Int64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+existing_contact_label_usable,object,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+existing_contact_fraction,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+existing_rmsd_late,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+existing_drift,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+baseline_corrected_final_frame_pose_rmsd_20ns_A,float64,coordinate baseline,Alternative coordinate-processing measurement used for controlled comparison.
+baseline_no_pbc_pose_rmsd_18_20_A,float64,coordinate baseline,Alternative coordinate-processing measurement used for controlled comparison.
+baseline_no_pbc_centroid_displacement_18_20_A,float64,coordinate baseline,Alternative coordinate-processing measurement used for controlled comparison.
+baseline_ligand_self_aligned_rmsd_18_20_A,float64,coordinate baseline,Alternative coordinate-processing measurement used for controlled comparison.
+same_traj_pose_rmsd_5ns_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_5ns_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_5ns,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+same_traj_pose_rmsd_10ns_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_10ns_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_10ns,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+same_traj_pose_rmsd_15ns_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_15ns_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_15ns,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+same_traj_pose_rmsd_20ns_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_20ns_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_20ns,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+same_traj_pose_rmsd_30ns_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_30ns_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_30ns,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+same_traj_pose_rmsd_18_20_A,float64,same-trajectory feature,"Mean PBC-corrected, protein-CA-aligned ligand RMSD in the final 2 ns before the named checkpoint."
+same_traj_centroid_displacement_18_20_A,float64,same-trajectory feature,Mean corrected unweighted ligand-centroid displacement in the final 2 ns before the named checkpoint.
+same_traj_pocket_retention_18_20,float64,same-trajectory state,Mean baseline-neighborhood retention in the final 2 ns before the named checkpoint.
+source21_same_traj_pocket_retention_18_20,float64,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source21_same_traj_pose_rmsd_18_20_A,float64,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source21_same_traj_centroid_displacement_18_20_A,float64,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source21_pocket_notes,str,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source21_pose_notes,str,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+legacy_same_traj_structural_state_20ns,str,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+legacy_saved_pose_decision_continue,float64,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+legacy_saved_retention_decision_continue,float64,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+legacy_saved_combined_decision_continue,float64,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+starting_structure_identical,object,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+energy_check,str,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+n_overlap_points,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+raw_pe_corr,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+fluctuation_corr,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+mean_abs_pe_diff,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+pe100_std,float64,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+source17_n_frames_100ns,float64,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source17_n_late_frames,float64,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+source17_outcome_notes,str,source provenance,Cached field from the numbered upstream analysis script named in the prefix.
+trace_start_time_ns,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+trace_end_time_ns,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+trace_n_frames,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+trajectory_frame_interval_ns,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+trajectory_n_frames_audited,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+trajectory_end_time_ns_audited,float64,trajectory coverage,Frame-count or time-coverage metadata used to audit the nominal 70-100 ns outcome window.
+late_window_required_start_ns,float64,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_window_required_end_ns,float64,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_window_70_100_coverage_ok,bool,coverage QC,True only when audited target-trajectory end time reaches nominal 100 ns.
+late_window_coverage_status,str,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_metrics_available,bool,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_outcome_usable,bool,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_rmsd_minus_centroid_A,float64,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+audit_centroid_le_rmsd,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+late_pose_retained_rmsd_only_all_metrics,Int64,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_pose_retained_legacy_recomputed,Int64,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+late_pose_retained_locked,Int64,locked outcome,1 if complete nominal 70-100 ns coverage and late corrected RMSD median is below 3 A; missing otherwise.
+audit_locked_equals_legacy_formula,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+audit_locked_equals_stored_legacy,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+locked_late_outcome_definition,str,outcome/QC,"Late-outcome component, definition, or coverage field named by the column."
+locked_late_outcome_definition_id,str,locked outcome,Versioned outcome identifier: late_pose_retained_rmsd_v1.
+legacy_centroid_condition_status,str,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+audit_source21_pose_matches_checkpoint,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+audit_source21_centroid_matches_checkpoint,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+audit_source21_retention_matches_checkpoint,boolean,audit assertion,Row-level consistency or equivalence check named by the column.
+eligible_checkpoint_5ns_rmsd,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_5ns_pose_pair,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_10ns_rmsd,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_10ns_pose_pair,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_15ns_rmsd,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_15ns_pose_pair,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_20ns_rmsd,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_20ns_pose_pair,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_30ns_rmsd,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_checkpoint_30ns_pose_pair,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_locked_checkpoint_common_cohort,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+eligible_locked_primary_pose_model,bool,cohort flag,True when the row has the locked outcome and features required by the named analysis.
+locked_primary_pose_model_exclusion_reason,str,supporting provenance,Supporting cached field retained for audit; see the generator mapping for its exact source.
+legacy_pose_prediction_available,bool,legacy provenance,Value copied or recomputed from the pre-lock analysis for comparison only.
+locked_lopo_fold,string,model output,"Explicit outer-LOPO fold, training-set, probability, or decision field."
+locked_lopo_train_n,Int64,model output,"Explicit outer-LOPO fold, training-set, probability, or decision field."
+locked_lopo_train_proteins,Int64,model output,"Explicit outer-LOPO fold, training-set, probability, or decision field."
+locked_lopo_probability_retained,float64,model output,Outer-LOPO out-of-fold probability of the locked late-retained class.
+locked_lopo_decision_continue,Int64,model output,1=continue/predicted retained when OOF probability is at least 0.5; 0=stop.
+audit_locked_decision_matches_legacy_saved,boolean,audit assertion,Row-level consistency or equivalence check named by the column.

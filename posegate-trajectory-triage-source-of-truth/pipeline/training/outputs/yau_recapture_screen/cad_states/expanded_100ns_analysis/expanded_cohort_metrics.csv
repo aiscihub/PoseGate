@@ -1,0 +1,2 @@
+cohort_n,protein_n,retained_n,non_retained_n,raw_corrected_rmsd_auroc,raw_corrected_rmsd_ci_low,raw_corrected_rmsd_ci_high,two_feature_lopo_auroc,two_feature_lopo_ci_low,two_feature_lopo_ci_high,balanced_accuracy_p05,retained_sensitivity_p05,non_retained_specificity_p05,stopped_n_p05,false_stops_n_p05,nominal_compute_saving_p05
+73,16,17,56,0.8245798319327731,0.7330308823529411,0.900351502311248,0.8182773109243697,0.7228115547489413,0.8947402159244265,0.7421218487394958,0.8235294117647058,0.6607142857142857,40,3,0.4383561643835616
