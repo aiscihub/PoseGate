@@ -67,3 +67,32 @@ result sets:
 ### Report
 - `doc/YAU_competition_2026/yau_aj_trajectory_triage.tex` — the manuscript
   itself, included for reference only (not needed to reproduce the data).
+
+## 2026-07-20 addition: scripts 32-40 (code only)
+
+Copied from `valleyfevermutation` branch `yau-trajectory-triage-code`
+(commit `0cb16991`, which also holds `25`-`31` plus everything below —
+that branch is a dedicated code-snapshot branch in the source repo, kept
+separate from the paper/data working tree specifically so this kind of
+code-only sync has a clean, citable commit to copy from). Verified
+byte-for-byte identical to source via `filecmp.cmp(..., shallow=False)`
+at copy time: all 10 files **OK**, no mismatches.
+
+**No corresponding data was copied for this batch** (see README.md,
+"Scripts 32-40" section, for exactly what each script needs and does not
+have here). This is a deliberate scope choice, not an oversight: these
+scripts' input CSVs (local-pocket-control measurements, PRPD
+decomposition outputs, the cross-ligand 20 ns measurements) were not
+part of the original 15 MB `cad_states/` snapshot and were not requested
+to be added.
+
+Files added: `32_contact_weighted_pocket_geometry_deviation.py`,
+`33_pocket_relative_pose_decomposition.py`,
+`34_prpd_frozen_lopo_joint_model.py`,
+`35_local_pocket_alignment_control.py`,
+`36_local_pocket_control_evaluation.py`,
+`37_pocket_frame_diagnostic_audit.py`,
+`38_pocket_frame_agreement_analysis.py`,
+`39_plot_prpd_pocket_control_figure.py`,
+`40_cross_ligand_20ns_coordinate_check.py`,
+`test_synthetic_frame_relative_theta.py`.
