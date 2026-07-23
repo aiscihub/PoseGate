@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "posegate-md"
+version = "0.1.0.dev0"
+description = "Coordinate-corrected, same-trajectory forecasting for molecular-dynamics runs"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "PoseGate-MD contributors"}]
+license = {text = "MIT"}
+dependencies = [
+  "MDAnalysis>=2.9,<3",
+  "numpy>=2,<3",
+  "PyYAML>=6,<7",
+]
+
+[project.urls]
+Repository = "https://github.com/aiscihub/PoseGate"
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[project.scripts]
+posegate = "posegate.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/posegate-md/configs" = [
+  "configs/posegate_5ns_v1.yaml",
+  "configs/posegate_20ns_v1.yaml",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+markers = [
+  "integration: requires an external real trajectory",
+]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,57 @@
+schema_version: "1.0"
+policy_id: "same_trajectory_checkpoint_20ns_v1"
+
+selections:
+  protein: "protein"
+  alignment_atoms: "protein and name CA"
+  ligand: "resname UNK and not name H*"
+
+reference:
+  frame: 0
+
+pbc:
+  method: "per_atom_minimum_image_to_alignment_centroid_v1"
+  require_box_vectors: true
+
+checkpoint:
+  time_ns: 20.0
+  window_start_ns: 18.0
+  window_end_ns: 20.0
+
+measurements:
+  corrected_rmsd: true
+  centroid_displacement: true
+  frame_relative_reorientation: true
+  internal_deformation: true
+
+policy:
+  mode: "shadow"
+  type: "standardized_logistic"
+  feature_names:
+    - "corrected_pose_rmsd_mean_angstrom"
+    - "corrected_centroid_displacement_mean_angstrom"
+  scaler_mean:
+    - 4.5008377195565545
+    - 3.2245451736392665
+  scaler_scale:
+    - 2.876224081340732
+    - 2.5750154671513346
+  coefficients:
+    - -1.9182673779769386
+    - -0.32364771942744713
+  intercept: -0.8626036900991616
+  decision_threshold: 0.5
+  score_calibrated: false
+
+outcome:
+  window_start_ns: 70.0
+  window_end_ns: 100.0
+  retained_rmsd_threshold_angstrom: 3.0
+
+provenance:
+  analysis_id: "same_trajectory_triage_a3_a5_v1_2026-07-15"
+  outcome_definition_id: "late_pose_retained_rmsd_v1"
+  source_model_sha256: "9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31"
+  locked_training_table_sha256: "eaae1baf7e78446f8ff83f30a29a2df2c4adeff0b96cf41e2fd7de6e21ef3350"
+  development_rows: 52
+  development_proteins: 15
