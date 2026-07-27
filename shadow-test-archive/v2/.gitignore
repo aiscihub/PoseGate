@@ -1,0 +1,6 @@
+# Runtime state and regenerable indexes. Immutable captures/validations should
+# be archived separately or committed deliberately after the cohort closes.
+monitor_logs/
+state/
+shadow_decisions_v2.csv
+shadow_summary_v2.json

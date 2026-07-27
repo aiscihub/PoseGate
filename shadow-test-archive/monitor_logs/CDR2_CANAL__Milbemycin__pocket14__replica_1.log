@@ -1,0 +1,8 @@
+2026-07-24 13:14:09,032 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-24 13:14:09,032 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CDR2_CANAL/simulation_explicit/pocket14/replica_1
+2026-07-24 13:14:12,339 INFO Production start detected; event=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/events/CDR2_CANAL__Milbemycin__pocket14__replica_1__production_start_detected.json
+2026-07-24 13:29:21,486 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=76, required=100, end=15.200 ns
+2026-07-24 13:44:28,172 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=83, required=100, end=16.600 ns
+2026-07-24 13:59:34,859 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=90, required=100, end=18.000 ns
+2026-07-24 14:14:41,500 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=97, required=100, end=19.400 ns
+2026-07-24 14:24:51,475 INFO CAPTURED decision=continue score=0.685438067 record=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/CDR2_CANAL__Milbemycin__pocket14__replica_1__same_trajectory_checkpoint_20ns_v1.json

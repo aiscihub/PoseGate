@@ -1,0 +1,20 @@
+2026-07-26 23:15:28,087 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-26 23:15:28,087 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CIMG_06197/simulation_explicit/pocket15/replica_1
+2026-07-26 23:15:33,946 INFO Production start detected; event=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/events/CIMG_06197__Milbemycin__pocket15__replica_1__production_start_detected.json
+2026-07-26 23:30:45,087 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=6, required=100, end=1.200 ns
+2026-07-26 23:45:53,366 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=12, required=100, end=2.400 ns
+2026-07-27 00:01:01,466 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=18, required=100, end=3.600 ns
+2026-07-27 00:16:09,605 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=24, required=100, end=4.800 ns
+2026-07-27 00:31:17,797 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=29, required=100, end=5.800 ns
+2026-07-27 00:46:25,971 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=35, required=100, end=7.000 ns
+2026-07-27 01:01:34,128 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=41, required=100, end=8.200 ns
+2026-07-27 01:16:42,220 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=47, required=100, end=9.400 ns
+2026-07-27 01:31:50,372 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=53, required=100, end=10.600 ns
+2026-07-27 01:46:58,451 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=59, required=100, end=11.800 ns
+2026-07-27 02:02:06,583 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=65, required=100, end=13.000 ns
+2026-07-27 02:17:14,726 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=71, required=100, end=14.200 ns
+2026-07-27 02:32:22,877 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=77, required=100, end=15.400 ns
+2026-07-27 02:47:31,030 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=82, required=100, end=16.400 ns
+2026-07-27 03:02:39,136 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=88, required=100, end=17.600 ns
+2026-07-27 03:17:47,189 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=94, required=100, end=18.800 ns
+2026-07-27 03:33:02,153 INFO CAPTURED decision=stop score=0.313555470 record=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/CIMG_06197__Milbemycin__pocket15__replica_1__same_trajectory_checkpoint_20ns_v1.json

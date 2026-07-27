@@ -1,0 +1,105 @@
+{
+  "capture_mode": "existing_prefix_preoutcome_pilot",
+  "counterfactual_compute_saved_note": "0 ns because the frozen rule returned do_not_stop; not a claim about a population compute-saving rate",
+  "counterfactual_compute_saved_ns": 0.0,
+  "decision": {
+    "action": "do_not_stop",
+    "interpretation": "do_not_stop means only that the one-sided early-stop condition was not met; it is not a prediction or probability of late retention",
+    "rule": "stop_candidate iff mean_corrected_pose_rmsd_3_5_A > stop_threshold_A",
+    "signed_stop_margin_A": -1.4709122273819313,
+    "stop_candidate": false,
+    "stop_threshold_A": 2.7634173197224974
+  },
+  "distance_from_3A_outcome_boundary_A": null,
+  "excluded_claims": [
+    "prospective validation",
+    "external validation",
+    "prospective cohort",
+    "false_stop_rate_estimate",
+    "stop_precision_estimate",
+    "auroc_or_sensitivity_or_specificity",
+    "threshold_generalization_evidence"
+  ],
+  "final_category": null,
+  "generated_utc": "2026-07-25T19:49:06Z",
+  "imported_v1_capture": {
+    "late_outcome_accessed": false,
+    "note": "v1 used an 11-frame window and raw (non-whole-ligand-imaged) periodic handling; its value is referenced for provenance only and is not reused as, or copied into, the strict v2 feature below",
+    "path": "/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/CDR2_CANAL__Milbemycin__pocket14__replica_1__same_trajectory_checkpoint_5ns_v1.json",
+    "path_sha256": "1bc77eb2c08caaa081c7d2727ad34a6287e254ba9865e4cdd3e8ba1f98761365",
+    "prediction_id": "shadow-CDR2_CANAL__Milbemycin__pocket14__replica_1-same_trajectory_checkpoint_5ns_v1-20260724T183947Z",
+    "prefix_coordinates_sha256": "ec491c3774c41a8ddc531d72221483d8b70216c17aff89f799ecfbe43611d34f",
+    "prefix_frames_used": 25,
+    "stop_continue_decision": "continue",
+    "timestamp_utc": "2026-07-24T18:39:47Z",
+    "topology_sha256": "c07da07ec9ec38358157259244fa26c3928be801507dd52b212eb53be44b8803",
+    "uncalibrated_retention_score": 0.7609940899603427
+  },
+  "late_pose_rmsd_median_70_100_A": null,
+  "launch_identity": {
+    "ligand": "Milbemycin",
+    "pocket": "pocket14",
+    "protein": "CDR2_CANAL",
+    "replica": "replica_1"
+  },
+  "launch_prospectively_enrolled_under_v2": false,
+  "n1_evaluation_note": "With one trajectory, only the fields in this record are reported: strict X5, frozen threshold, signed margin, frozen action, seal timestamp, max simulation time available when locked, and (once available) late median RMSD, distance from the 3.0 A outcome boundary, and final category. No AUROC, sensitivity, specificity, false-stop rate, stop precision, or confidence interval is computed for n=1.",
+  "not_a_prospective_cohort": true,
+  "outcome_pending": true,
+  "outcome_prospective": true,
+  "outcome_window_already_exposed_at_seal": false,
+  "pilot_scope": "single_case_n1_declared_scope_reduction",
+  "pilot_scope_reference": "yau_competition/prospective_shadow/v2/DEPLOYMENT_GATES_V2.md, addendum 2026-07-25",
+  "policy_id": "same_trajectory_5ns_rmsd_threshold_v2",
+  "policy_path": "/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/v2/frozen_policy/same_trajectory_5ns_rmsd_threshold_v2.json",
+  "policy_sha256": "ab7edec4800e5f0735bae1ef8af93f99a05c2193eadbf8f49a9008f8961a9964",
+  "provenance_verification": {
+    "observed_topology_sha256": "c07da07ec9ec38358157259244fa26c3928be801507dd52b212eb53be44b8803",
+    "reproduced_v1_algorithm_digest": "ec491c3774c41a8ddc531d72221483d8b70216c17aff89f799ecfbe43611d34f",
+    "stored_v1_prefix_coordinates_sha256": "ec491c3774c41a8ddc531d72221483d8b70216c17aff89f799ecfbe43611d34f",
+    "topology_sha256_match": true,
+    "v1_late_outcome_access_ok": true,
+    "v1_prefix_coordinates_reproduced": true,
+    "v1_prefix_frame_count_ok": true
+  },
+  "record_type": "v2_pilot_import",
+  "strict_v2_measurement": {
+    "checkpoint_end_ns": 5.0,
+    "feature_name": "mean_corrected_pose_rmsd_3_5_A",
+    "feature_window_frame_count": 10,
+    "feature_window_frame_indices_zero_based": [
+      15,
+      24
+    ],
+    "feature_window_nominal_times_ns": [
+      3.2,
+      5.0
+    ],
+    "ligand_heavy_atom_count": 38,
+    "max_atomwise_image_shift_disagreement_A": 2.842517866562357e-14,
+    "max_available_nominal_time_ns_at_capture": 20.0,
+    "max_raw_ligand_diameter_A": 14.030943065812261,
+    "mean_corrected_centroid_displacement_3_5_A": 1.036096679170396,
+    "mean_corrected_pose_rmsd_3_5_A": 1.292505092340566,
+    "nominal_frame_interval_ns": 0.2,
+    "observed_frame_interval_ns": 0.20000000059628115,
+    "prefix_coordinates_sha256": "25c25d8054fe8bf93873344dabc3a924bc949b789312dc091419523497b428fa",
+    "prefix_frame_indices_zero_based": [
+      0,
+      24
+    ],
+    "prefix_frames_used": 25,
+    "protein_alignment_atom_count": 1499,
+    "trajectory_frames_available_at_capture": 100
+  },
+  "trajectory_end_ns_available_at_seal": 20.000000059628114,
+  "trajectory_frames_available_at_seal": 100,
+  "trajectory_path": "/media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CDR2_CANAL/simulation_explicit/pocket14/replica_1/CDR2_CANAL_prepared_Milbemycin_pocket14_complex_recombined_complex_explicit_trajectory.dcd",
+  "trajectory_sha256": "2fafabd511baecf387a397757f018d1b32d05e1f05cbdd54137954924cf3dda1",
+  "what_this_pilot_establishes": [
+    "the trajectory prefix was measured without accessing late-outcome coordinates",
+    "the frozen 2.7634173197224974 A rule produced one immutable action",
+    "the same trajectory is intended to be completed to 100 ns",
+    "the frozen action can later be compared honestly with the exact (70,100] ns endpoint"
+  ]
+}

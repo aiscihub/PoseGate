@@ -1,0 +1,14 @@
+{
+  "capture_script_sha256": "0a0b5663ebd8bc6281fa663e2320b453f85d23120a7fcda77a4e3067b2045792",
+  "complex_id": "MDR1_CRYNH|Milbemycin|pocket1|replica_1",
+  "detected_utc": "2026-07-19T02:37:21Z",
+  "event": "production_start_detected",
+  "git_head": "4c66c9c4a8023a9be8d4d4138e35f271c90c4eac",
+  "git_status_sha256": "74c767bd485d8a3719eb198a6d7d99cc376233fc4e4ce501eb60a6ce80286c41",
+  "repository_dirty": true,
+  "schema_version": 1,
+  "topology_path": "/media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md/MDR1_CRYNH/simulation_explicit/pocket1/replica_1/MDR1_CRYNH_prepared_Milbemycin_pocket1_complex_recombined_complex_explicit_initial_frame.pdb",
+  "trajectory_mtime_ns_at_detection": 1784428638305433211,
+  "trajectory_path": "/media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md/MDR1_CRYNH/simulation_explicit/pocket1/replica_1/MDR1_CRYNH_prepared_Milbemycin_pocket1_complex_recombined_complex_explicit_trajectory.dcd",
+  "trajectory_size_bytes_at_detection": 0
+}

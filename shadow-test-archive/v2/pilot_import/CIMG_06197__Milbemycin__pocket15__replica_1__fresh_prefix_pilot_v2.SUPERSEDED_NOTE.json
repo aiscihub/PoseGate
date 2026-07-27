@@ -1,0 +1,25 @@
+{
+  "note_type": "sealed_record_target_trajectory_superseded",
+  "generated_utc": "2026-07-27T06:15:00Z",
+  "refers_to": "CIMG_06197__Milbemycin__pocket15__replica_1__fresh_prefix_pilot_v2.json",
+  "explanation": [
+    "This sealed record measured the strict v2 X5 feature against the ORIGINAL",
+    "simulation_100ns_md/CIMG_06197/simulation_explicit/pocket15/replica_1 trajectory",
+    "(capped at 39.8 ns, 199 frames, trajectory_sha256 b5b10bb4e943d9896ad43ec3caafc88d0bedf7ed9f293501c2b07de5dfaea57a).",
+    "Immediately afterward, run_rerun_with_watchdog.sh CIMG_06197 pocket15 Milbemycin 100 was launched.",
+    "That script always starts a brand-new 0 ns trajectory under simulation_100ns_md_reruns/,",
+    "copying only the prepared input PDB/SDF -- it does NOT resume the checkpoint referenced above.",
+    "So the original 39.8 ns trajectory this record describes will never be completed to 100 ns;",
+    "a separate, independent trajectory is being completed instead under",
+    "simulation_100ns_md_reruns/CIMG_06197/simulation_explicit/pocket15/replica_1.",
+    "This record's 'outcome_pending'/'the same trajectory is intended to be completed to 100 ns'",
+    "language is therefore now FALSE and must not be finalized against the reruns-tree trajectory.",
+    "The sealed record is left untouched (immutable by design, and it did faithfully capture what",
+    "was true about the original trajectory at seal time) but its outcome must be treated as",
+    "permanently unavailable -- do not write a 58_shadow_pilot_import_outcome_v2.py-style",
+    "finalization for it. A separate, correctly-labeled fresh_prefix_preoutcome_pilot record",
+    "should be sealed against the reruns-tree trajectory once it passes 5 ns of real production."
+  ],
+  "no_v1_capture_precedent_ok": true,
+  "gpu_time_lost": "negligible -- the mismatched rerun was caught before any production DCD/checkpoint frame was written (still in minimisation/equilibration when checked)"
+}

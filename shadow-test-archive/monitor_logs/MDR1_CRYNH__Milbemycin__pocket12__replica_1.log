@@ -1,0 +1,20 @@
+2026-07-23 06:25:22,737 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-23 06:25:22,738 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/MDR1_CRYNH/simulation_explicit/pocket12/replica_1
+2026-07-23 06:25:29,163 INFO Production start detected; event=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/events/MDR1_CRYNH__Milbemycin__pocket12__replica_1__production_start_detected.json
+2026-07-23 06:27:14,204 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-23 06:27:14,204 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/MDR1_CRYNH/simulation_explicit/pocket12/replica_1
+2026-07-23 06:27:14,205 INFO Production start detected; event=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/events/MDR1_CRYNH__Milbemycin__pocket12__replica_1__production_start_detected.json
+2026-07-23 06:28:50,192 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-23 06:28:50,192 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/MDR1_CRYNH/simulation_explicit/pocket12/replica_1
+2026-07-23 06:28:50,222 INFO Production start detected; event=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/events/MDR1_CRYNH__Milbemycin__pocket12__replica_1__production_start_detected.json
+2026-07-23 06:44:03,167 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=54, required=100, end=10.800 ns
+2026-07-23 06:59:12,781 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=59, required=100, end=11.800 ns
+2026-07-23 07:14:22,448 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=64, required=100, end=12.800 ns
+2026-07-23 07:29:31,950 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=69, required=100, end=13.800 ns
+2026-07-23 07:44:41,466 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=73, required=100, end=14.600 ns
+2026-07-23 07:59:50,902 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=78, required=100, end=15.600 ns
+2026-07-23 08:15:00,584 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=83, required=100, end=16.600 ns
+2026-07-23 08:30:10,095 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=88, required=100, end=17.600 ns
+2026-07-23 08:45:19,584 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=93, required=100, end=18.600 ns
+2026-07-23 09:00:29,094 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=98, required=100, end=19.600 ns
+2026-07-23 09:05:38,543 INFO CAPTURED decision=continue score=0.719920887 record=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/MDR1_CRYNH__Milbemycin__pocket12__replica_1__same_trajectory_checkpoint_20ns_v1.json
