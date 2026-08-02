@@ -1,0 +1,5 @@
+metric_id,task,score_column,higher_score_means,n,n_proteins,n_retained,n_nonretained,auroc,ci_lo,ci_hi,ci_method
+same_corrected_pose_5ns,same trajectory; protein-aligned and PBC-consistent,same_traj_pose_rmsd_5ns_A,late non-retained,52,15,13,39,0.8560157790927022,0.7422192982456141,0.9345260989010988,"protein-clustered bootstrap, 5000 draws; fixed score"
+same_no_pbc_pose_5ns,same trajectory; protein-aligned and PBC-naive,X5_nopbc_A,late non-retained,52,15,13,39,0.5621301775147929,0.39863141202426916,0.8212175324675324,"protein-clustered bootstrap, 5000 draws; fixed score"
+same_ligand_self_rmsd_5ns,same trajectory; ligand-self-aligned,X5_ligself_A,late non-retained,52,15,13,39,0.5187376725838264,0.3575498575498576,0.7803076496674056,"protein-clustered bootstrap, 5000 draws; fixed score"
+separate_corrected_pose_5ns,separate launch; protein-aligned and PBC-consistent,separate_launch_pose_rmsd_5ns_A,late non-retained,52,15,13,39,0.4260355029585799,0.2433640873015873,0.5447042694868781,"protein-clustered bootstrap, 5000 draws; fixed score"

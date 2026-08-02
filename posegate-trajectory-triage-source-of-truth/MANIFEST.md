@@ -96,3 +96,34 @@ Files added: `32_contact_weighted_pocket_geometry_deviation.py`,
 `39_plot_prpd_pocket_control_figure.py`,
 `40_cross_ligand_20ns_coordinate_check.py`,
 `test_synthetic_frame_relative_theta.py`.
+
+## 2026-08-02 addition: n=52 claim_figures refresh + n=81 expanded cohort (data only)
+
+Re-synced `same_trajectory_source_of_truth/claim_figures/` from the source
+repo (additive only — the 12 original files were unchanged; added 13 files
+covering later analyses: `spearman_early_late_clustered.csv`,
+`table2_5ns_paired_differences.csv`, `table2_5ns_coordinate_and_transfer.csv`,
+`harmonized_cross_ligand_3_5ns_stats.csv`, `forecast_horizon_curve.csv`,
+`protein_influence_jackknife.csv`, `strict_survivor_subset_auroc.csv`,
+`same_vs_separate_5ns.csv`, `separate_launch_pose_rmsd_5ns.csv`,
+`paired_auroc_difference_5ns_vs_20ns.csv`,
+`consolidated_100ns_extension.csv`, `contact_retention_outcome.csv`,
+`table2_5ns_recalculation_manifest.json`). All top-level n=52 files
+(`same_trajectory_source_of_truth.csv`, `README.md`, `RESULTS_LOCK_A3_A5.md`,
+etc.) were verified unchanged since the 2026-07-18 copy — this cohort is
+locked/frozen, as expected.
+
+Added `expanded_source_of_truth_frozen_n81/` in full (not previously
+present here) — the current locked n=81 expanded stress-test cohort, which
+supersedes the n=73 snapshot (`expanded_source_of_truth/`, still present
+below for history) as the paper's expanded-cohort numbers as of 2026-07-30.
+Includes `master/expanded_trajectory_source_of_truth.csv` (84 rows,
+`eligible_primary_cohort` sums to 81), `checkpoint_and_robustness/` (5/10/
+15/20/30ns AUROC+CI, matches Figure 2B and the Results-section prose), and
+`physics_guided_ai_audit/` (the model-complexity audit behind Table 3,
+`tab:model-audit-main`).
+
+Data only — no additional scripts copied this round (scripts 25-31 already
+here remain current for the n=52 build; the expanded-cohort/model-audit
+scripts, and everything numbered above 31, were not requested and are not
+included).

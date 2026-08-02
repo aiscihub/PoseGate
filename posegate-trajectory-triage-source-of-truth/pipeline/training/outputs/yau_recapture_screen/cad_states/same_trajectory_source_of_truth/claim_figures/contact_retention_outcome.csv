@@ -1,0 +1,5 @@
+predictor,target,role,n,spearman_rho,spearman_ci_lo,spearman_ci_hi
+same_traj_pose_rmsd_18_20_A,Q100,confirmatory (locked primary predictor),52,-0.4769733575093375,-0.6500349086167521,-0.24181276517901382
+same_traj_pose_rmsd_5ns_A,Q20,secondary,52,-0.5163040619315735,-0.7397350314489157,-0.2029116543821888
+same_traj_pose_rmsd_5ns_A,Q50,secondary,52,-0.34759404745801187,-0.6275007762997661,0.0005335665587637627
+same_traj_pose_rmsd_5ns_A,Q100,secondary,52,-0.301599178521795,-0.5713274845454211,0.01791341368556694
