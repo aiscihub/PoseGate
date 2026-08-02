@@ -1,0 +1,25 @@
+2026-07-30 19:40:48,841 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-30 19:40:48,841 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/PDR5_YEAST/simulation_explicit/pocket14/replica_1
+2026-07-30 19:40:48,842 INFO Waiting for production trajectory to start
+2026-07-30 19:55:58,905 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=2, required=100, end=0.400 ns
+2026-07-30 20:11:08,817 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=7, required=100, end=1.400 ns
+2026-07-30 20:26:18,736 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=12, required=100, end=2.400 ns
+2026-07-30 20:41:28,621 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=16, required=100, end=3.200 ns
+2026-07-30 20:56:38,432 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=21, required=100, end=4.200 ns
+2026-07-30 21:11:48,197 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=26, required=100, end=5.200 ns
+2026-07-30 21:26:57,890 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=30, required=100, end=6.000 ns
+2026-07-30 21:42:07,612 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=35, required=100, end=7.000 ns
+2026-07-30 21:57:17,384 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=40, required=100, end=8.000 ns
+2026-07-30 22:12:27,196 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=45, required=100, end=9.000 ns
+2026-07-30 22:27:37,020 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=49, required=100, end=9.800 ns
+2026-07-30 22:42:46,868 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=54, required=100, end=10.800 ns
+2026-07-30 22:57:56,613 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=59, required=100, end=11.800 ns
+2026-07-30 23:13:07,562 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=64, required=100, end=12.800 ns
+2026-07-30 23:28:17,294 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=68, required=100, end=13.600 ns
+2026-07-30 23:43:27,141 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=73, required=100, end=14.600 ns
+2026-07-30 23:58:38,425 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=78, required=100, end=15.600 ns
+2026-07-31 00:13:48,215 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=82, required=100, end=16.400 ns
+2026-07-31 00:28:58,004 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=87, required=100, end=17.400 ns
+2026-07-31 00:44:07,782 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=92, required=100, end=18.400 ns
+2026-07-31 00:59:17,486 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=97, required=100, end=19.400 ns
+2026-07-31 01:09:32,718 INFO CAPTURED decision=continue score=0.577244217 record=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/PDR5_YEAST__Milbemycin__pocket14__replica_1__same_trajectory_checkpoint_20ns_v1.json

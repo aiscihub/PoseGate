@@ -48,7 +48,7 @@ calculations): `SCORE_METHODOLOGY.md` in this directory.
 | MDR1_CRYNH:pocket12 | 20 ns | 0.720 | continue | 3.047 Å, non-retained | No — same boundary miss |
 | CDR2_CANAL:pocket14 | 5 ns | 0.761 | continue | 6.081 Å, non-retained (resolved 2026-07-26) | No — false continue |
 | CDR2_CANAL:pocket14 | 20 ns | 0.685 | continue | 6.081 Å, non-retained (resolved 2026-07-26) | No — false continue |
-| CIMG_06197:pocket15 | 20 ns | 0.314 | **stop** | not yet — trajectory still running to 100 ns | pending |
+| CIMG_06197:pocket15 | 20 ns | 0.314 | **stop** | 4.893 Å, non-retained (resolved 2026-07-28) | **Yes — first correct stop** |
 
 Three trajectories are now fully validated (MDR1_CRYNH:pocket1,
 MDR1_CRYNH:pocket12, and CDR2_CANAL:pocket14, resolved 2026-07-26 at late

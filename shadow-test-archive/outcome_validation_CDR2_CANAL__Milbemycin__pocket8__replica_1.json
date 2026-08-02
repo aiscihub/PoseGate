@@ -1,0 +1,38 @@
+{
+  "complex_id": "CDR2_CANAL|Milbemycin|pocket8|replica_1",
+  "generated_utc": "2026-07-28T23:30:45Z",
+  "late_pose_retained": false,
+  "late_pose_rmsd_median_70_100_A": 8.426683226826079,
+  "purpose": "Outcome computation for a completed prospective shadow trajectory. It compares immutable early-coordinate forecasts with the later (70,100] ns pose-retention outcome. Read-only: does not modify any locked cohort or analysis artifact.",
+  "retention_threshold_A": 3.0,
+  "same_traj_pose_rmsd_18_20_A": 8.419236437363852,
+  "same_traj_pose_rmsd_5ns_A": 7.901452346475124,
+  "schema_version": 1,
+  "shadow_20ns_capture": {
+    "actual_late_outcome_retained": false,
+    "actual_late_pose_rmsd_median_A": 8.426683226826079,
+    "capture_path": "yau_competition/prospective_shadow/captures/CDR2_CANAL__Milbemycin__pocket8__replica_1__same_trajectory_checkpoint_20ns_v1.json",
+    "captured_pose_rmsd_18_20_A": 8.419236437363852,
+    "decision_was_correct": true,
+    "measurement_cross_check_delta_A": 0.0,
+    "note": "'continue' is scored correct if the trajectory was in fact late-retained (a stopped run cannot be checked this way; only 'continue' decisions are directly falsifiable against a completed run).",
+    "predicted_decision": "stop",
+    "predicted_score": 0.021300563980834894,
+    "recomputed_pose_rmsd_18_20_A": 8.419236437363852
+  },
+  "shadow_5ns_capture": {
+    "actual_late_outcome_retained": false,
+    "actual_late_pose_rmsd_median_A": 8.426683226826079,
+    "capture_path": "yau_competition/prospective_shadow/captures/CDR2_CANAL__Milbemycin__pocket8__replica_1__same_trajectory_checkpoint_5ns_v1.json",
+    "captured_pose_rmsd_3_5_A": 7.901452346475124,
+    "decision_was_correct": true,
+    "measurement_cross_check_delta_A": 0.0,
+    "predicted_decision": "stop",
+    "predicted_score": 0.005068859700437979,
+    "recomputed_pose_rmsd_3_5_A": 7.901452346475124
+  },
+  "trajectory_end_ns": 100.00000029814058,
+  "trajectory_n_frames": 500,
+  "trajectory_path": "/media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CDR2_CANAL/simulation_explicit/pocket8/replica_1/CDR2_CANAL_prepared_Milbemycin_pocket8_complex_recombined_complex_explicit_trajectory.dcd",
+  "trajectory_sha256": "6aafd084792481a51d7a62ec5bcda714aca026c83b952ce3a93a3a5acf9c9522"
+}

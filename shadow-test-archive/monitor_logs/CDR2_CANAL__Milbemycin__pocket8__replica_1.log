@@ -1,0 +1,18 @@
+2026-07-27 22:01:29,322 INFO Frozen model ready: sha256=9b93b6d81665956ad764964e77e55968fb49444dc6fce5d9762a54dfe4086d31
+2026-07-27 22:01:29,322 INFO Watching /media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CDR2_CANAL/simulation_explicit/pocket8/replica_1
+2026-07-27 22:01:29,323 INFO Waiting for production trajectory to start
+2026-07-27 22:16:36,447 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=4, required=100, end=0.800 ns
+2026-07-27 22:31:43,175 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=11, required=100, end=2.200 ns
+2026-07-27 22:46:49,967 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=18, required=100, end=3.600 ns
+2026-07-27 23:01:56,731 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=25, required=100, end=5.000 ns
+2026-07-27 23:17:03,406 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=32, required=100, end=6.400 ns
+2026-07-27 23:32:10,093 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=40, required=100, end=8.000 ns
+2026-07-27 23:47:16,854 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=47, required=100, end=9.400 ns
+2026-07-28 00:02:23,483 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=54, required=100, end=10.800 ns
+2026-07-28 00:17:30,118 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=61, required=100, end=12.200 ns
+2026-07-28 00:32:36,821 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=68, required=100, end=13.600 ns
+2026-07-28 00:47:43,414 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=75, required=100, end=15.000 ns
+2026-07-28 01:02:50,055 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=82, required=100, end=16.400 ns
+2026-07-28 01:17:56,673 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=89, required=100, end=17.800 ns
+2026-07-28 01:33:03,335 INFO Waiting for 20.0 ns of frames: checkpoint incomplete: frames=96, required=100, end=19.200 ns
+2026-07-28 01:43:13,516 INFO CAPTURED decision=stop score=0.021300564 record=/home/zhenli/git/valleyfevermutation/yau_competition/prospective_shadow/captures/CDR2_CANAL__Milbemycin__pocket8__replica_1__same_trajectory_checkpoint_20ns_v1.json

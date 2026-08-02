@@ -208,8 +208,15 @@ overwrite each other's sealed record.
 
 v1 and v2 agree directionally on this trajectory: both flag early divergence
 from the docked pose. As with pocket14, this remains n=1 and must not be
-pooled into any rate claim. **Still open:** no finalizer exists yet for
-`v2_fresh_prefix_pilot`-type records once the trajectory reaches 100 ns —
-`58_shadow_pilot_import_outcome_v2.py` expects an `imported_v1_capture` field
-this record type doesn't have, so it needs to be extended or a small
-analogous finalizer written before this case can be closed out.
+pooled into any rate claim. **Resolved 2026-07-28.** The trajectory reached 100 ns cleanly (single
+watchdog attempt, no crashes). `51_validate_shadow_outcome.py` confirmed the
+v1 20 ns `stop` call was **correct** (actual late RMSD 4.893 Å, non-retained
+— the project's first correct stop). `58_shadow_pilot_import_outcome_v2.py`
+was extended with a small branch to accept `v2_fresh_prefix_pilot` records
+(they store `topology_path` directly rather than under an `imported_v1_capture`
+key) and sealed
+`.../srctraj-e9c08dec__fresh_prefix_pilot_v2__outcome_finalization_v2.json`:
+late median RMSD (70,100] = 4.892482219018756 Å, non-retained, **`final_category:
+successful_stop`** — the frozen v2 threshold's first confirmed catch of a
+real failure (pocket14 was `false_continue`; this is the complementary case).
+Still n=2 total for v2 outcomes; not a rate claim.

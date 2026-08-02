@@ -1,0 +1,34 @@
+{
+  "complex_id": "CIMG_06197|Milbemycin|pocket15|replica_1",
+  "generated_utc": "2026-07-28T04:18:17Z",
+  "late_pose_retained": false,
+  "late_pose_rmsd_median_70_100_A": 4.892705715355469,
+  "purpose": "Outcome computation for a completed prospective shadow trajectory. It compares immutable early-coordinate forecasts with the later (70,100] ns pose-retention outcome. Read-only: does not modify any locked cohort or analysis artifact.",
+  "retention_threshold_A": 3.0,
+  "retrospective_5ns_replay": {
+    "actual_late_outcome_retained": false,
+    "decision_at_p05": "stop",
+    "note": "NOT a genuine prospective capture: this trajectory is long past 70 ns, so this is a same-frozen-model replay on already-available data, computed purely for context.",
+    "same_traj_pose_rmsd_5ns_A": 4.215661904251979,
+    "uncalibrated_retention_score": 0.15913768734030048
+  },
+  "same_traj_pose_rmsd_18_20_A": 4.303316220922149,
+  "same_traj_pose_rmsd_5ns_A": 4.215661904251979,
+  "schema_version": 1,
+  "shadow_20ns_capture": {
+    "actual_late_outcome_retained": false,
+    "actual_late_pose_rmsd_median_A": 4.892705715355469,
+    "capture_path": "yau_competition/prospective_shadow/captures/CIMG_06197__Milbemycin__pocket15__replica_1__same_trajectory_checkpoint_20ns_v1.json",
+    "captured_pose_rmsd_18_20_A": 4.303316220922149,
+    "decision_was_correct": true,
+    "measurement_cross_check_delta_A": 0.0,
+    "note": "'continue' is scored correct if the trajectory was in fact late-retained (a stopped run cannot be checked this way; only 'continue' decisions are directly falsifiable against a completed run).",
+    "predicted_decision": "stop",
+    "predicted_score": 0.31355547002856304,
+    "recomputed_pose_rmsd_18_20_A": 4.303316220922149
+  },
+  "trajectory_end_ns": 100.00000029814058,
+  "trajectory_n_frames": 500,
+  "trajectory_path": "/media/zhenli/datadrive/valleyfevermutation/simulation_100ns_md_reruns/CIMG_06197/simulation_explicit/pocket15/replica_1/CIMG_06197_prepared_Milbemycin_pocket15_complex_recombined_complex_explicit_trajectory.dcd",
+  "trajectory_sha256": "e87e5b7ba1c893ab6239916000c839aeafc7593cb9dc655cf18ca96142478351"
+}
