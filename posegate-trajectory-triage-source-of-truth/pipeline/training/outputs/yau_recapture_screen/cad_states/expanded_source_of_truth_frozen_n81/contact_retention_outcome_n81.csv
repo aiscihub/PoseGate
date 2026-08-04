@@ -1,0 +1,5 @@
+predictor,target,role,n,spearman_rho,spearman_ci_lo,spearman_ci_hi
+corrected_pose_rmsd_mean_18_20_A,Q100,confirmatory (locked primary predictor),80,-0.4468818773752008,-0.6022001117387167,-0.2606815513709634
+corrected_pose_rmsd_mean_3_5_A,Q20,secondary,81,-0.3615866694370193,-0.550145047406705,-0.112536276761444
+corrected_pose_rmsd_mean_3_5_A,Q50,secondary,80,-0.25086165009519246,-0.47879433480120565,0.01914395002634825
+corrected_pose_rmsd_mean_3_5_A,Q100,secondary,80,-0.2215356965237943,-0.44095578941367963,0.04149367373312106
