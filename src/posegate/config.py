@@ -15,7 +15,9 @@ from .exceptions import ConfigurationError
 
 SUPPORTED_SCHEMA_VERSION = "1.0"
 SUPPORTED_PBC_METHOD = "per_atom_minimum_image_to_alignment_centroid_v1"
-SUPPORTED_POLICY_TYPE = "standardized_logistic"
+SUPPORTED_POLICY_TYPES = ("standardized_logistic", "threshold_rule")
+SUPPORTED_STOP_DIRECTION = "greater_than"
+SUPPORTED_TIE_RULE = "no_stop"
 SUPPORTED_FEATURES = {
     "corrected_pose_rmsd_mean_angstrom",
     "corrected_centroid_displacement_mean_angstrom",
@@ -94,15 +96,35 @@ class Measurements:
 
 @dataclass(frozen=True)
 class Policy:
+    """A frozen forecasting rule.
+
+    ``standardized_logistic`` uses the scaler/coefficient fields and emits an
+    uncalibrated retention score. ``threshold_rule`` uses the one-sided
+    ``stop_threshold_angstrom`` fields and emits no score at all. Fields that do
+    not apply to the declared type stay ``None`` and are pruned from
+    :meth:`PoseGateConfig.scientific_dict`, so a policy of one type hashes
+    exactly as it did before the other type existed.
+    """
+
     mode: str
     type: str
     feature_names: tuple[str, ...]
-    scaler_mean: tuple[float, ...]
-    scaler_scale: tuple[float, ...]
-    coefficients: tuple[float, ...]
-    intercept: float
-    decision_threshold: float
     score_calibrated: bool
+    scaler_mean: tuple[float, ...] | None = None
+    scaler_scale: tuple[float, ...] | None = None
+    coefficients: tuple[float, ...] | None = None
+    intercept: float | None = None
+    decision_threshold: float | None = None
+    stop_threshold_angstrom: float | None = None
+    stop_direction: str | None = None
+    tie_rule: str | None = None
+
+
+@dataclass(frozen=True)
+class Applicability:
+    """Optional domain-profile limits checked before a policy is applied."""
+
+    max_ligand_diameter_box_fraction: float
 
 
 @dataclass(frozen=True)
@@ -125,11 +147,17 @@ class PoseGateConfig:
     outcome: Outcome
     provenance: Mapping[str, Any]
     configuration_sha256: str
+    applicability: Applicability | None = None
 
     def scientific_dict(self) -> dict[str, Any]:
         value = asdict(self)
         value.pop("configuration_sha256")
         value["reference"] = {"frame": value.pop("reference_frame")}
+        value["policy"] = {
+            key: item for key, item in value["policy"].items() if item is not None
+        }
+        if value.get("applicability") is None:
+            value.pop("applicability", None)
         return value
 
 
@@ -149,6 +177,7 @@ def config_from_mapping(
             "policy",
             "outcome",
             "provenance",
+            "applicability",
         },
         "config",
     )
@@ -245,18 +274,25 @@ def config_from_mapping(
         raise ConfigurationError("corrected_rmsd is required in version 0.1")
 
     policy_raw = _mapping(_require(raw, "policy", "config"), "policy")
-    policy_keys = {
-        "mode",
-        "type",
-        "feature_names",
+    shared_keys = {"mode", "type", "feature_names", "score_calibrated"}
+    logistic_keys = {
         "scaler_mean",
         "scaler_scale",
         "coefficients",
         "intercept",
         "decision_threshold",
-        "score_calibrated",
     }
-    _reject_unknown(policy_raw, policy_keys, "policy")
+    threshold_keys = {"stop_threshold_angstrom", "stop_direction", "tie_rule"}
+    policy_type = str(_require(policy_raw, "type", "policy"))
+    if policy_type not in SUPPORTED_POLICY_TYPES:
+        raise ConfigurationError(f"unsupported policy.type: {policy_type}")
+    type_keys = (
+        logistic_keys
+        if policy_type == "standardized_logistic"
+        else threshold_keys
+    )
+    _reject_unknown(policy_raw, shared_keys | type_keys, f"policy ({policy_type})")
+
     feature_value = _require(policy_raw, "feature_names", "policy")
     if not isinstance(feature_value, (list, tuple)) or not feature_value:
         raise ConfigurationError("policy.feature_names must be a non-empty list")
@@ -264,48 +300,83 @@ def config_from_mapping(
     unsupported = sorted(set(feature_names).difference(SUPPORTED_FEATURES))
     if unsupported:
         raise ConfigurationError(f"unsupported policy features: {unsupported}")
-    policy = Policy(
-        mode=str(_require(policy_raw, "mode", "policy")),
-        type=str(_require(policy_raw, "type", "policy")),
-        feature_names=feature_names,
-        scaler_mean=_float_tuple(
-            _require(policy_raw, "scaler_mean", "policy"), "policy.scaler_mean"
-        ),
-        scaler_scale=_float_tuple(
-            _require(policy_raw, "scaler_scale", "policy"), "policy.scaler_scale"
-        ),
-        coefficients=_float_tuple(
-            _require(policy_raw, "coefficients", "policy"),
-            "policy.coefficients",
-        ),
-        intercept=_finite_float(
-            _require(policy_raw, "intercept", "policy"), "policy.intercept"
-        ),
-        decision_threshold=_finite_float(
-            _require(policy_raw, "decision_threshold", "policy"),
-            "policy.decision_threshold",
-        ),
-        score_calibrated=_boolean(
+
+    common = {
+        "mode": str(_require(policy_raw, "mode", "policy")),
+        "type": policy_type,
+        "feature_names": feature_names,
+        "score_calibrated": _boolean(
             _require(policy_raw, "score_calibrated", "policy"),
             "policy.score_calibrated",
         ),
-    )
+    }
+    if policy_type == "standardized_logistic":
+        policy = Policy(
+            **common,
+            scaler_mean=_float_tuple(
+                _require(policy_raw, "scaler_mean", "policy"), "policy.scaler_mean"
+            ),
+            scaler_scale=_float_tuple(
+                _require(policy_raw, "scaler_scale", "policy"), "policy.scaler_scale"
+            ),
+            coefficients=_float_tuple(
+                _require(policy_raw, "coefficients", "policy"),
+                "policy.coefficients",
+            ),
+            intercept=_finite_float(
+                _require(policy_raw, "intercept", "policy"), "policy.intercept"
+            ),
+            decision_threshold=_finite_float(
+                _require(policy_raw, "decision_threshold", "policy"),
+                "policy.decision_threshold",
+            ),
+        )
+    else:
+        policy = Policy(
+            **common,
+            stop_threshold_angstrom=_finite_float(
+                _require(policy_raw, "stop_threshold_angstrom", "policy"),
+                "policy.stop_threshold_angstrom",
+            ),
+            stop_direction=str(_require(policy_raw, "stop_direction", "policy")),
+            tie_rule=str(_require(policy_raw, "tie_rule", "policy")),
+        )
+
     if policy.mode != "shadow":
         raise ConfigurationError("version 0.1 supports only policy.mode = shadow")
-    if policy.type != SUPPORTED_POLICY_TYPE:
-        raise ConfigurationError(f"unsupported policy.type: {policy.type}")
-    lengths = {
-        len(policy.feature_names),
-        len(policy.scaler_mean),
-        len(policy.scaler_scale),
-        len(policy.coefficients),
-    }
-    if len(lengths) != 1:
-        raise ConfigurationError("policy vector lengths must match")
-    if any(scale <= 0 for scale in policy.scaler_scale):
-        raise ConfigurationError("policy.scaler_scale values must be positive")
-    if not 0.0 < policy.decision_threshold < 1.0:
-        raise ConfigurationError("policy.decision_threshold must be between 0 and 1")
+
+    if policy.type == "standardized_logistic":
+        lengths = {
+            len(policy.feature_names),
+            len(policy.scaler_mean or ()),
+            len(policy.scaler_scale or ()),
+            len(policy.coefficients or ()),
+        }
+        if len(lengths) != 1:
+            raise ConfigurationError("policy vector lengths must match")
+        if any(scale <= 0 for scale in policy.scaler_scale or ()):
+            raise ConfigurationError("policy.scaler_scale values must be positive")
+        if not 0.0 < (policy.decision_threshold or 0.0) < 1.0:
+            raise ConfigurationError(
+                "policy.decision_threshold must be between 0 and 1"
+            )
+    else:
+        if len(policy.feature_names) != 1:
+            raise ConfigurationError(
+                "a threshold_rule policy must declare exactly one feature"
+            )
+        if (policy.stop_threshold_angstrom or 0.0) <= 0:
+            raise ConfigurationError("policy.stop_threshold_angstrom must be positive")
+        if policy.stop_direction != SUPPORTED_STOP_DIRECTION:
+            raise ConfigurationError(
+                f"policy.stop_direction must be {SUPPORTED_STOP_DIRECTION}"
+            )
+        if policy.tie_rule != SUPPORTED_TIE_RULE:
+            raise ConfigurationError(f"policy.tie_rule must be {SUPPORTED_TIE_RULE}")
+        if policy.score_calibrated:
+            raise ConfigurationError(
+                "a threshold_rule policy emits no score and cannot be calibrated"
+            )
 
     outcome_raw = _mapping(_require(raw, "outcome", "config"), "outcome")
     _reject_unknown(
@@ -338,6 +409,26 @@ def config_from_mapping(
     if outcome.retained_rmsd_threshold_angstrom <= 0:
         raise ConfigurationError("outcome RMSD threshold must be positive")
 
+    applicability: Applicability | None = None
+    if raw.get("applicability") is not None:
+        applicability_raw = _mapping(raw["applicability"], "applicability")
+        _reject_unknown(
+            applicability_raw, {"max_ligand_diameter_box_fraction"}, "applicability"
+        )
+        fraction = _finite_float(
+            _require(
+                applicability_raw,
+                "max_ligand_diameter_box_fraction",
+                "applicability",
+            ),
+            "applicability.max_ligand_diameter_box_fraction",
+        )
+        if not 0.0 < fraction < 1.0:
+            raise ConfigurationError(
+                "applicability.max_ligand_diameter_box_fraction must be between 0 and 1"
+            )
+        applicability = Applicability(max_ligand_diameter_box_fraction=fraction)
+
     provenance = _mapping(_require(raw, "provenance", "config"), "provenance")
     return PoseGateConfig(
         schema_version=schema_version,
@@ -351,6 +442,7 @@ def config_from_mapping(
         outcome=outcome,
         provenance=dict(provenance),
         configuration_sha256=configuration_sha256,
+        applicability=applicability,
     )
 
 

@@ -44,4 +44,11 @@ def test_real_pocket12_20ns_matches_sealed_legacy_capture() -> None:
     assert decision.uncalibrated_retention_score == pytest.approx(
         legacy["uncalibrated_retention_score"], abs=1e-14
     )
-    assert decision.recommendation.lower() == legacy["stop_continue_decision"]
+    # The legacy scripts recorded a two-valued scheduling decision. PoseGate
+    # names the reversible action instead, so the vocabularies are mapped
+    # rather than lowercased: a bare .lower() only ever matched a continue.
+    legacy_decision = {
+        "CONTINUE": "continue",
+        "CANDIDATE_FOR_PAUSE": "stop",
+    }[decision.recommendation]
+    assert legacy_decision == legacy["stop_continue_decision"]

@@ -26,6 +26,14 @@ Changing to bond-connectivity molecule reconstruction would define a new
 measurement and policy version; it must not silently alter the bundled v1
 policies.
 
+The same boundary applies to the frozen v2 threshold policy used by the
+manuscript. Its `threshold_rule` decision shape is now supported, but its
+measurement is not: v2 images the ligand as one whole molecule and selects the
+feature window by nominal frame index, where v1 images per atom and selects by
+accumulated floating frame time. Shipping a v2 configuration on the v1
+measurement would reuse the v2 policy id while producing different numbers, so
+no v2 configuration is bundled until the v2 measurement exists.
+
 ### 2. Extract the measurement library
 
 - Implement strict topology, selection, cadence, checkpoint, and PBC checks.
@@ -44,7 +52,8 @@ policies.
 - Make records immutable and idempotent by run and policy.
 - Refuse a genuine shadow capture after the late-outcome embargo begins.
 - Produce JSON first; add concise HTML reporting after the record schema is
-  stable.
+  stable. The per-record HTML view is implemented as `posegate report`; a
+  registry-level console across many records is not.
 
 ### 4. Add OpenMM sidecar adapters
 
@@ -69,8 +78,18 @@ policies.
 - `inspect`, `measure`, `shadow`, `watch`, and `validate`: implemented as
   direct-file commands.
 - Synthetic/configuration/immutability tests: implemented.
-- Real `MDR1_CRYNH:pocket12` 20 ns golden parity: passing exactly for RMSD,
-  centroid displacement, coordinate-prefix hash, and score.
+- Record schema 1.1 (per-frame series, run identity, named QC checks, domain
+  profile): implemented.
+- One-sided `threshold_rule` policy type and optional `applicability` limits:
+  implemented.
+- Per-record HTML report (`posegate report`): implemented.
+- Audit categories and sealed-forecast recomputation in `validate`:
+  implemented.
+- Real 20 ns golden parity: passing exactly for RMSD, centroid displacement,
+  coordinate-prefix hash, and score. Verified on `CDR2_CANAL:pocket8` (a stop
+  call) and `MDR1_TRIRC:pocket4` (a continue call); the original
+  `MDR1_CRYNH:pocket12` trajectory is no longer present on the analysis host.
+  Bundled v1 configurations hash exactly as they did before schema 1.1.
 - Wheel packaging with bundled policy configurations: verified.
 
 ## Remaining release gates
@@ -78,7 +97,10 @@ policies.
 - Add 3–5 redistributable small golden fixtures rather than relying on a
   private full trajectory.
 - Add OpenMM run-directory discovery and status reporting.
-- Add HTML report generation.
+- Add a registry-level HTML console across many records. This needs a registry
+  scan, per-run launch and progress state, and a separate cohort summary input;
+  live progress and GPU state depend on the phase 4 adapters and must be
+  omitted rather than simulated until those exist.
 - Add continuous integration across supported Python versions.
 - Confirm package metadata and release documentation remain consistent with
   the repository's MIT license.

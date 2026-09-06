@@ -20,11 +20,13 @@ from .exceptions import (
 )
 from .policy import evaluate_policy
 from .records import (
+    build_run_identity,
     capture_path,
     create_shadow_record,
     load_record,
     sha256_file,
 )
+from .report import load_validation, write_record_report
 from .trajectory import inspect_inputs, measure_prefix
 from .validation import validate_shadow_record
 
@@ -45,6 +47,19 @@ def _add_inputs(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--topology", type=Path, required=True)
     parser.add_argument("--trajectory", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
+
+
+def _add_identity(parser: argparse.ArgumentParser) -> None:
+    """Optional structured labels for the launch behind --run-id.
+
+    These are recorded, never measured, and never reach the policy.
+    """
+    group = parser.add_argument_group("run identity (optional, recorded verbatim)")
+    group.add_argument("--protein")
+    group.add_argument("--ligand")
+    group.add_argument("--pocket")
+    group.add_argument("--replica")
+    group.add_argument("--launched-utc", help="launch time, e.g. 2026-07-29T00:34:00Z")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -75,6 +90,7 @@ def build_parser() -> argparse.ArgumentParser:
     shadow_parser.add_argument("--run-id", required=True)
     shadow_parser.add_argument("--registry", type=Path, required=True)
     shadow_parser.add_argument("--checkpoint-file", type=Path)
+    _add_identity(shadow_parser)
 
     watch_parser = subparsers.add_parser(
         "watch", help="wait for a growing trajectory and capture once"
@@ -84,6 +100,7 @@ def build_parser() -> argparse.ArgumentParser:
     watch_parser.add_argument("--registry", type=Path, required=True)
     watch_parser.add_argument("--checkpoint-file", type=Path)
     watch_parser.add_argument("--poll-seconds", type=float, default=30.0)
+    _add_identity(watch_parser)
 
     validate_parser = subparsers.add_parser(
         "validate", help="compare a sealed forecast with a completed trajectory"
@@ -92,6 +109,15 @@ def build_parser() -> argparse.ArgumentParser:
     validate_parser.add_argument("--topology", type=Path, required=True)
     validate_parser.add_argument("--trajectory", type=Path, required=True)
     validate_parser.add_argument("--output", type=Path)
+
+    report_parser = subparsers.add_parser(
+        "report", help="render one sealed record as a self-contained HTML page"
+    )
+    report_parser.add_argument("--record", type=Path, required=True)
+    report_parser.add_argument(
+        "--validation", type=Path, help="validation JSON from `posegate validate`"
+    )
+    report_parser.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -130,6 +156,13 @@ def _capture(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
         measurement=measurement,
         decision=decision,
         checkpoint_file=args.checkpoint_file,
+        run_identity=build_run_identity(
+            protein=args.protein,
+            ligand=args.ligand,
+            pocket=args.pocket,
+            replica=args.replica,
+            launched_utc=args.launched_utc,
+        ),
     )
 
 
@@ -187,11 +220,27 @@ def run(args: argparse.Namespace) -> int:
     if args.command == "validate":
         record = load_record(args.record)
         result = validate_shadow_record(
-            record, topology=args.topology, trajectory=args.trajectory
+            record,
+            topology=args.topology,
+            trajectory=args.trajectory,
+            record_path=args.record,
         )
         if args.output:
             _write_json(args.output, result)
         _print_json(result)
+        return 0
+
+    if args.command == "report":
+        record = load_record(args.record)
+        validation = load_validation(args.validation) if args.validation else None
+        path = write_record_report(args.output, record, validation)
+        _print_json(
+            {
+                "report_path": str(path),
+                "record_id": record.get("record_id"),
+                "validation_included": validation is not None,
+            }
+        )
         return 0
 
     raise AssertionError(f"unhandled command: {args.command}")

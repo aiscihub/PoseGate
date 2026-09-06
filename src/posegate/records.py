@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
 import hashlib
 import json
 import os
@@ -10,7 +9,7 @@ from pathlib import Path
 import re
 import subprocess
 import time
-from typing import Any
+from typing import Any, Mapping
 
 from . import __version__
 from .config import PoseGateConfig
@@ -111,6 +110,77 @@ def _git_snapshot(start: Path) -> dict[str, Any]:
     }
 
 
+IDENTITY_FIELDS = ("protein", "ligand", "pocket", "replica", "launched_utc")
+
+
+def build_run_identity(**values: str | None) -> dict[str, str | None]:
+    """Return the structured launch identity, with every key always present.
+
+    ``run_id`` stays the addressable primary key. This block exists so a
+    registry can group and label records without parsing that free-text string.
+    """
+    unknown = sorted(set(values).difference(IDENTITY_FIELDS))
+    if unknown:
+        raise ImmutableRecordError(f"unknown run identity fields: {unknown}")
+    identity: dict[str, str | None] = {}
+    for field in IDENTITY_FIELDS:
+        value = values.get(field)
+        if value is None:
+            identity[field] = None
+            continue
+        text = str(value).strip()
+        identity[field] = text or None
+    return identity
+
+
+def _quality_control(
+    config: PoseGateConfig, measurement: PrefixMeasurement
+) -> dict[str, Any]:
+    """Name the checks the measurement path already enforced.
+
+    Every entry is a precondition of reaching this point: the record fails to
+    exist at all if one of them is violated. Naming them individually replaces
+    an opaque ``"PASS"`` string and lets a reader see which checks were in
+    force under this configuration.
+    """
+    domain = measurement.domain_profile
+    limit = config.applicability
+    checks: dict[str, Any] = {
+        "periodic_box_vectors_valid": True,
+        "protein_ligand_selections_disjoint": True,
+        "checkpoint_coverage_complete": (
+            measurement.prefix_frames_used == len(measurement.series.time_ns)
+        ),
+        "feature_window_populated": measurement.window_frame_count > 0,
+        "future_frames_accessed": False,
+    }
+    if limit is None:
+        checks["ligand_within_declared_domain"] = None
+    else:
+        checks["ligand_within_declared_domain"] = (
+            domain.ligand_diameter_box_fraction
+            <= limit.max_ligand_diameter_box_fraction
+        )
+    failed = sorted(
+        name
+        for name, value in checks.items()
+        if value is False and name != "future_frames_accessed"
+    )
+    return {
+        "overall": "FAIL" if failed else "PASS",
+        "failed_checks": failed,
+        "checks": checks,
+        "domain_profile": {
+            "max_ligand_diameter_angstrom": domain.max_ligand_diameter_angstrom,
+            "min_box_length_angstrom": domain.min_box_length_angstrom,
+            "ligand_diameter_box_fraction": domain.ligand_diameter_box_fraction,
+            "max_ligand_diameter_box_fraction": (
+                None if limit is None else limit.max_ligand_diameter_box_fraction
+            ),
+        },
+    }
+
+
 def build_shadow_record(
     *,
     run_id: str,
@@ -118,6 +188,7 @@ def build_shadow_record(
     measurement: PrefixMeasurement,
     decision: PolicyDecision,
     checkpoint_file: str | Path | None = None,
+    run_identity: Mapping[str, str | None] | None = None,
 ) -> dict[str, Any]:
     topology = Path(measurement.topology_path)
     trajectory = Path(measurement.trajectory_path)
@@ -126,10 +197,13 @@ def build_shadow_record(
     if checkpoint_path is not None and not checkpoint_path.is_file():
         raise ImmutableRecordError(f"checkpoint file does not exist: {checkpoint_path}")
     record = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "record_id": f"posegate-{_slug(run_id)}-{_slug(config.policy_id)}",
         "created_utc": utc_now(),
         "run_id": run_id,
+        "run_identity": (
+            build_run_identity() if run_identity is None else dict(run_identity)
+        ),
         "software": {"name": "posegate-md", "version": __version__},
         "configuration": embedded_config,
         "configuration_file_sha256": config.configuration_sha256,
@@ -146,15 +220,23 @@ def build_shadow_record(
             sha256_file(checkpoint_path) if checkpoint_path else None
         ),
         "measurement": measurement.as_dict(),
-        "quality_control": "PASS",
+        "quality_control": _quality_control(config, measurement),
         "forecast": decision.forecast,
         "recommendation": decision.recommendation,
         "action_applied": False,
+        "policy_type": decision.policy_type,
+        "feature_values": dict(decision.feature_values),
         "uncalibrated_retention_score": (decision.uncalibrated_retention_score),
         "score_calibrated": decision.score_calibrated,
         "decision_threshold": decision.decision_threshold,
         "linear_predictor": decision.linear_predictor,
-        "standardized_features": dict(decision.standardized_features),
+        "standardized_features": (
+            None
+            if decision.standardized_features is None
+            else dict(decision.standardized_features)
+        ),
+        "stop_threshold_angstrom": decision.stop_threshold_angstrom,
+        "signed_stop_margin_angstrom": decision.signed_stop_margin_angstrom,
         "late_outcome_accessed": False,
         "outcome_embargo_until_ns": config.outcome.window_start_ns,
         "scope": "FORECASTS_THIS_TRAJECTORY_ONLY",
@@ -173,6 +255,7 @@ def create_shadow_record(
     measurement: PrefixMeasurement,
     decision: PolicyDecision,
     checkpoint_file: str | Path | None = None,
+    run_identity: Mapping[str, str | None] | None = None,
 ) -> tuple[Path, dict[str, Any]]:
     path = capture_path(registry, run_id, config.policy_id)
     record = build_shadow_record(
@@ -181,6 +264,7 @@ def create_shadow_record(
         measurement=measurement,
         decision=decision,
         checkpoint_file=checkpoint_file,
+        run_identity=run_identity,
     )
     write_immutable_json(path, record)
     return path, record

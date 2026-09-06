@@ -72,8 +72,19 @@ posegate watch \
 posegate validate \
   --record shadow_registry/<record-id>.json \
   --topology system.pdb \
-  --trajectory trajectory.dcd
+  --trajectory trajectory.dcd \
+  --output validation.json
+
+# Render one sealed record as a single self-contained HTML page.
+posegate report \
+  --record shadow_registry/<record-id>.json \
+  --validation validation.json \
+  --output report.html
 ```
+
+`shadow` and `watch` also accept optional `--protein`, `--ligand`, `--pocket`,
+`--replica`, and `--launched-utc` labels. They are recorded verbatim, never
+measured, and never reach the policy; `--run-id` remains the addressable key.
 
 ## Output language
 
@@ -81,11 +92,42 @@ Forecasts use `POSE_RETAINED`, `POSE_NONRETAINED`, or `DEFER`. Reversible
 scheduling recommendations use `CONTINUE`, `CANDIDATE_FOR_PAUSE`, or
 `NO_ACTION_SHADOW_MODE`.
 
+Two policy types are supported. A `standardized_logistic` policy is two-sided
+and reports an uncalibrated retention score. A `threshold_rule` policy is a
+one-sided early-stop screen: it reports a signed stop margin in angstrom, no
+score at all, and returns `DEFER` when the stop condition is not met, because
+not meeting a one-sided stop condition is not a prediction that the pose is
+retained.
+
 Every record states:
 
 > This forecast applies only to continuation of the trajectory already
 > observed. It has not been validated for predicting a separately launched
 > simulation.
+
+## Reporting
+
+`posegate report` renders one sealed record, optionally joined to its
+validation output, as a single HTML file. The page inlines its own styles and
+draws the prefix trace as inline SVG, so a report stays readable from an
+archive with no network, no plotting library, and no viewer. It renders the
+record; it never recomputes it.
+
+## Known measurement sensitivity
+
+The feature window is selected from frame times accumulated off the
+trajectory's stored timestep. Two files holding byte-identical coordinates can
+therefore disagree about a frame sitting exactly on the window boundary: a
+difference of ~5e-9 ns in a DCD's stored `dt` is enough to move one frame into
+or out of a `(3,5]` ns window and shift the policy input by ~0.03 A. The
+bundled v1 policies reproduce the original scripts on this point exactly, so
+this is a property of the v1 measurement convention rather than a regression.
+`validate` reports the window frame count on both readings so such a shift is
+attributable rather than silent.
+
+A measurement version that selects the window by nominal frame index instead of
+floating time would remove this sensitivity, and would be a new measurement and
+policy version rather than a change to the bundled v1 policies.
 
 ## Development boundary
 
