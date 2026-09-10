@@ -6,6 +6,8 @@ It measures only the coordinate prefix available at a frozen checkpoint,
 records an immutable shadow forecast, and later checks that forecast against a
 predefined late trajectory window.
 
+![PoseGate-MD overview](assets/posegate_md_v1.jpeg)
+
 Version 0.1 is deliberately a measurement and shadow-recording product. It
 does not terminate simulations, claim binding affinity, predict a separately
 launched replica, or report a per-trajectory confidence interval.
