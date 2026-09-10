@@ -113,22 +113,6 @@ draws the prefix trace as inline SVG, so a report stays readable from an
 archive with no network, no plotting library, and no viewer. It renders the
 record; it never recomputes it.
 
-## Known measurement sensitivity
-
-The feature window is selected from frame times accumulated off the
-trajectory's stored timestep. Two files holding byte-identical coordinates can
-therefore disagree about a frame sitting exactly on the window boundary: a
-difference of ~5e-9 ns in a DCD's stored `dt` is enough to move one frame into
-or out of a `(3,5]` ns window and shift the policy input by ~0.03 A. The
-bundled v1 policies reproduce the original scripts on this point exactly, so
-this is a property of the v1 measurement convention rather than a regression.
-`validate` reports the window frame count on both readings so such a shift is
-attributable rather than silent.
-
-A measurement version that selects the window by nominal frame index instead of
-floating time would remove this sensitivity, and would be a new measurement and
-policy version rather than a change to the bundled v1 policies.
-
 ## Development boundary
 
 The numbered manuscript-analysis scripts remain the research provenance
