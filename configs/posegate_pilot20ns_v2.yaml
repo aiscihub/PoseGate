@@ -39,6 +39,6 @@ provenance:
   analysis_id: "prospective_pilot_short_horizon"
   outcome_definition_id: "short_horizon_pose_retained_rmsd_v2"
   source_policy_id: "same_trajectory_5ns_rmsd_threshold_v2"
-  source_policy: "shadow-test-archive/v2/frozen_policy/same_trajectory_5ns_rmsd_threshold_v2.json"
+  source_policy: "paper/current/policy/same_trajectory_5ns_rmsd_threshold_v2.json"
   source_core_sha256: "25e0ff5363aba5e2933df3a9306ed297bb065b37f81b8eb34981eb6b50947004"
   interpretation: "Same frozen early score and threshold; a separately identified 20 ns evaluation horizon."

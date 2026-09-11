@@ -1,2 +1,0 @@
-comparison,score_a,score_b,n,n_proteins,auroc_a,auroc_b,auroc_difference_a_minus_b,ci_lo,ci_hi,ci_method
-same_5ns_minus_same_20ns,same_traj_pose_rmsd_5ns_A,same_traj_pose_rmsd_20ns_A,52,15,0.8560157790927022,0.8599605522682445,-0.0039447731755423154,-0.11764705882352933,0.095976430976431,"paired protein-clustered bootstrap, 5000 draws"

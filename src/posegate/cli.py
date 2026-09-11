@@ -66,7 +66,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="posegate",
         description=(
-            "Coordinate-corrected, same-trajectory geometric forecasting for MD"
+            "Coordinate-corrected, same-trajectory monitoring and shadow triage for MD"
         ),
     )
     parser.add_argument("--version", action="version", version=__version__)
@@ -84,7 +84,7 @@ def build_parser() -> argparse.ArgumentParser:
     measure_parser.add_argument("--output", type=Path)
 
     shadow_parser = subparsers.add_parser(
-        "shadow", help="create one immutable forecast before late frames exist"
+        "shadow", help="create one immutable shadow decision before late frames exist"
     )
     _add_inputs(shadow_parser)
     shadow_parser.add_argument("--run-id", required=True)
@@ -103,7 +103,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_identity(watch_parser)
 
     validate_parser = subparsers.add_parser(
-        "validate", help="compare a sealed forecast with a completed trajectory"
+        "validate", help="compare a sealed shadow decision with a completed trajectory"
     )
     validate_parser.add_argument("--record", type=Path, required=True)
     validate_parser.add_argument("--topology", type=Path, required=True)

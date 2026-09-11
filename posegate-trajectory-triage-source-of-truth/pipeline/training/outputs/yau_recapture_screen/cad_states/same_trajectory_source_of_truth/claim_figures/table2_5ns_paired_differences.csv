@@ -1,4 +1,0 @@
-comparison,score_a,score_b,n,n_proteins,auroc_a,auroc_b,auroc_difference_a_minus_b,ci_lo,ci_hi,ci_method
-corrected_minus_pbc_naive_5ns,same_traj_pose_rmsd_5ns_A,X5_nopbc_A,52,15,0.8560157790927022,0.5621301775147929,0.29388560157790933,0.004273049645390057,0.47518417724998613,"paired protein-clustered bootstrap, 5000 draws"
-corrected_minus_ligand_self_5ns,same_traj_pose_rmsd_5ns_A,X5_ligself_A,52,15,0.8560157790927022,0.5187376725838264,0.3372781065088758,0.10699025848765428,0.4840980113636362,"paired protein-clustered bootstrap, 5000 draws"
-same_minus_separate_launch_5ns,same_traj_pose_rmsd_5ns_A,separate_launch_pose_rmsd_5ns_A,52,15,0.8560157790927022,0.4260355029585799,0.4299802761341223,0.28787878787878796,0.6153888888888889,"paired protein-clustered bootstrap, 5000 draws"

@@ -1,108 +1,31 @@
-# PoseGate-MD implementation plan
+# Implementation status
 
-## Product boundary
+## Released contract
 
-PoseGate-MD 0.1 is a local command-line sidecar that measures a running
-trajectory prefix, applies a frozen same-trajectory policy, and writes one
-immutable shadow record before late frames exist. It does not modify or
-terminate the simulation.
+Version 0.2.0 implements whole-ligand imaging, exact nominal windows, the
+one-sided X5 rule, and same-trajectory monitoring and shadow triage. It adds
+current results, an 81-trajectory manifest, provenance mapping, checksums,
+and compact saved-frame fixtures.
 
-The numbered manuscript scripts remain unchanged as the research provenance
-layer. PoseGate-MD is the reusable implementation for new trajectories.
+Legacy v1 per-atom/logistic configurations remain hash-identical test fixtures,
+not installed policies. Obsolete research/capture archives remain in Git history.
+The current pilot configuration is a 5 ns checkpoint with a 20 ns outcome,
+not the legacy 20 ns checkpoint.
 
-## Phases
+## Implemented
 
-### 1. Freeze the scientific contract
+- Configuration, selection, cadence, periodic-box, and prefix validation.
+- Whole-ligand correction, protein alignment, corrected RMSD, and controls.
+- Strict one-sided threshold; unflagged trajectories remain unresolved.
+- `inspect`, `measure`, `shadow`, `watch`, `validate`, and HTML `report`.
+- Immutable records, revalidation, synthetic and saved-frame regression tests.
+- Current manuscript data, mapping, numerical checks, and release checksums.
 
-- Freeze the 5 ns `(3,5]` and 20 ns `(18,20]` checkpoint specifications.
-- Preserve the validated per-atom minimum-image representation relative to
-  the protein Cα alignment centroid.
-- Keep corrected RMSD primary and centroid displacement supporting.
-- Treat frame-relative reorientation and internal deformation as diagnostics.
-- Freeze the `(70,100]` ns outcome and 3 Å retention threshold.
-- Version every policy and record its training/model provenance.
+## Outside this release
 
-Changing to bond-connectivity molecule reconstruction would define a new
-measurement and policy version; it must not silently alter the bundled v1
-policies.
+- Original prospective enrollment/arming/deadline infrastructure.
+- OpenMM directory discovery, GPU/job monitoring, and a registry-wide console.
+- Automatic pause/resume, scheduling, or permanent termination.
+- Distribution of complete raw trajectories, which are too large to bundle.
 
-The same boundary applies to the frozen v2 threshold policy used by the
-manuscript. Its `threshold_rule` decision shape is now supported, but its
-measurement is not: v2 images the ligand as one whole molecule and selects the
-feature window by nominal frame index, where v1 images per atom and selects by
-accumulated floating frame time. Shipping a v2 configuration on the v1
-measurement would reuse the v2 policy id while producing different numbers, so
-no v2 configuration is bundled until the v2 measurement exists.
-
-### 2. Extract the measurement library
-
-- Implement strict topology, selection, cadence, checkpoint, and PBC checks.
-- Extract protein alignment and ligand coordinate correction.
-- Compute corrected RMSD, centroid displacement, frame-relative
-  reorientation, and internal deformation.
-- Match synthetic invariances and the existing scripts exactly.
-
-### 3. Deliver shadow mode
-
-- Provide `inspect`, `measure`, `shadow`, `watch`, and `validate`.
-- Use portable frozen policy coefficients rather than version-sensitive
-  model deserialization.
-- Seal configuration, topology, coordinate-prefix, and optional OpenMM
-  checkpoint hashes.
-- Make records immutable and idempotent by run and policy.
-- Refuse a genuine shadow capture after the late-outcome embargo begins.
-- Produce JSON first; add concise HTML reporting after the record schema is
-  stable. The per-record HTML view is implemented as `posegate report`; a
-  registry-level console across many records is not.
-
-### 4. Add OpenMM sidecar adapters
-
-- Discover topology, DCD, log, and checkpoint files from a run directory.
-- Monitor reporter-safe checkpoint boundaries.
-- Report run state and GPU-independent measurement progress.
-- Never modify the live simulation in shadow mode.
-
-### 5. Add reversible scheduling
-
-- Pause and resume only at aligned DCD/checkpoint boundaries.
-- Reprioritize queued continuations and use otherwise idle GPU periods.
-- Keep permanent early termination disabled until prospective false-stop and
-  resource-savings evidence is sufficient.
-
-## Current development status
-
-- Strict configuration schema: implemented.
-- Portable frozen 5 ns and 20 ns policies: implemented.
-- Corrected geometry library: implemented.
-- Immutable shadow records: implemented.
-- `inspect`, `measure`, `shadow`, `watch`, and `validate`: implemented as
-  direct-file commands.
-- Synthetic/configuration/immutability tests: implemented.
-- Record schema 1.1 (per-frame series, run identity, named QC checks, domain
-  profile): implemented.
-- One-sided `threshold_rule` policy type and optional `applicability` limits:
-  implemented.
-- Per-record HTML report (`posegate report`): implemented.
-- Audit categories and sealed-forecast recomputation in `validate`:
-  implemented.
-- Real 20 ns golden parity: passing exactly for RMSD, centroid displacement,
-  coordinate-prefix hash, and score. Verified on `CDR2_CANAL:pocket8` (a stop
-  call) and `MDR1_TRIRC:pocket4` (a continue call); the original
-  `MDR1_CRYNH:pocket12` trajectory is no longer present on the analysis host.
-  Bundled v1 configurations hash exactly as they did before schema 1.1.
-- Wheel packaging with bundled policy configurations: verified.
-
-## Remaining release gates
-
-- Add 3–5 redistributable small golden fixtures rather than relying on a
-  private full trajectory.
-- Add OpenMM run-directory discovery and status reporting.
-- Add a registry-level HTML console across many records. This needs a registry
-  scan, per-run launch and progress state, and a separate cohort summary input;
-  live progress and GPU state depend on the phase 4 adapters and must be
-  omitted rather than simulated until those exist.
-- Add continuous integration across supported Python versions.
-- Confirm package metadata and release documentation remain consistent with
-  the repository's MIT license.
-- Add contributor documentation, security guidance for untrusted files, and
-  a tagged archival release.
+These are separate development tasks, not claims of this release. See `RELEASE.md`.

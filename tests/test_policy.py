@@ -5,12 +5,11 @@ import pytest
 from posegate.config import load_config
 from posegate.policy import evaluate_policy
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_5ns_portable_policy_reproduces_frozen_shadow_score() -> None:
-    config = load_config(ROOT / "configs/posegate_5ns_v1.yaml")
+    config = load_config(ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml")
     decision = evaluate_policy(
         config.policy,
         {
@@ -26,7 +25,7 @@ def test_5ns_portable_policy_reproduces_frozen_shadow_score() -> None:
 
 
 def test_20ns_portable_policy_reproduces_frozen_shadow_score() -> None:
-    config = load_config(ROOT / "configs/posegate_20ns_v1.yaml")
+    config = load_config(ROOT / "tests/fixtures/legacy/posegate_20ns_v1.yaml")
     decision = evaluate_policy(
         config.policy,
         {

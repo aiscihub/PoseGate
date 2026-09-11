@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0
+
+- Use same-trajectory monitoring and shadow triage as the public description.
+- Add whole-ligand periodic imaging and exact nominal-index windows.
+- Bundle the Table 5 X5 threshold and distinct 20 ns-outcome pilot config.
+- Preserve legacy per-atom/logistic configuration hashes and frozen records.
+- Include 13 tables, five figures, the final 81-trajectory manifest, and control inputs.
+- Add manuscript mapping, checksums, release notes, and saved-frame regression tests.
+- Verify current point estimates and selected protein-clustered intervals without raw MD.
+- Remove obsolete research/capture archives and artwork from the release tree;
+  preserve only current policy provenance and minimal compatibility-test fixtures.
+
 ## 0.1.0.dev0
 
 - Define a strict, versioned scientific configuration contract.

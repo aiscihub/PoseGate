@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "posegate-md"
-version = "0.2.0.dev0"
-description = "Protein-relative ligand-pose measurement and same-trajectory shadow triage"
+version = "0.2.0"
+description = "Protein-relative ligand-pose measurement, same-trajectory monitoring and shadow triage"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{name = "PoseGate-MD contributors"}]
@@ -33,8 +33,6 @@ where = ["src"]
 "share/posegate-md/configs" = [
   "configs/posegate_5ns_v2.yaml",
   "configs/posegate_pilot20ns_v2.yaml",
-  "configs/posegate_5ns_v1.yaml",
-  "configs/posegate_20ns_v1.yaml",
 ]
 
 [tool.pytest.ini_options]

@@ -1,2 +1,0 @@
-probability_threshold_continue,n_stopped,n_continued,correct_stop_tn,false_stop_fn,correct_continue_tp,nonretained_continue_fp,false_stop_rate,nonretained_stop_rate,compute_saved_fraction
-0.5,28,24,26,2,11,13,0.15384615384615385,0.6666666666666666,0.4307692307692308

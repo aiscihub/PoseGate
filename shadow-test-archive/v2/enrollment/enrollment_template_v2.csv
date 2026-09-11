@@ -1,4 +1,0 @@
-launch_id,planned_order,root,protein,pocket,ligand,replica,primary_include,notes
-replace-with-unique-launch-0001,1,/absolute/path/to/simulation_root,PROTEIN_ID_1,pocket1,Milbemycin,replica_shadow_0001,true,"Replace every placeholder before freezing enrollment"
-replace-with-unique-launch-0002,2,/absolute/path/to/simulation_root,PROTEIN_ID_2,pocket2,Milbemycin,replica_shadow_0002,true,"Each root/protein/pocket/replica path must be unique"
-replace-with-unique-launch-0003,3,/absolute/path/to/simulation_root,PROTEIN_ID_3,pocket3,Milbemycin,replica_shadow_0003,true,"List the complete cohort before any production DCD exists"

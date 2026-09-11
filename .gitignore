@@ -4,3 +4,7 @@ dist/
 *.egg-info/
 __pycache__/
 *.py[cod]
+.DS_Store
+# The unsubmitted full manuscript and supplement must not be published here.
+/paper/current/yau_aj.*
+/paper/current/yau_supplementary_materials.*

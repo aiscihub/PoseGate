@@ -1,8 +1,0 @@
-metric_id,task,score_column,higher_score_means,n,n_proteins,n_retained,n_nonretained,auroc,ci_lo,ci_hi,ci_method
-same_corrected_pose,same trajectory,same_traj_pose_rmsd_18_20_A,late non-retained,52,15,13,39,0.8599605522682445,0.7472519841269841,0.9509813925570227,"protein-clustered bootstrap, 5000 draws; fixed score"
-same_pocket_retention,same trajectory,same_traj_pocket_retention_18_20,late retained,52,15,13,39,0.7140039447731755,0.5596557088744589,0.8504554229554229,"protein-clustered bootstrap, 5000 draws; fixed score"
-separate_corrected_pose,separate launch,separate_launch_pose_rmsd_18_20_A,late non-retained,52,15,13,39,0.5463510848126233,0.3138825757575758,0.6736621534493874,"protein-clustered bootstrap, 5000 draws; fixed score"
-separate_pocket_retention,separate launch,separate_launch_pocket_retention_18_20,late retained,52,15,13,39,0.5404339250493096,0.36381737764550265,0.693364243057272,"protein-clustered bootstrap, 5000 draws; fixed score"
-same_no_pbc_pose,coordinate control,baseline_no_pbc_pose_rmsd_18_20_A,late non-retained,52,15,13,39,0.5502958579881657,0.40827853598014885,0.7432959770114943,"protein-clustered bootstrap, 5000 draws; fixed score"
-same_ligand_self_rmsd,coordinate control,baseline_ligand_self_aligned_rmsd_18_20_A,late non-retained,52,15,13,39,0.5069033530571992,0.32315755775937227,0.741416256157635,"protein-clustered bootstrap, 5000 draws; fixed score"
-locked_oof_probability,same trajectory model,locked_lopo_probability_retained,late retained,52,15,13,39,0.8382642998027613,0.7063311688311689,0.9423565299892748,"protein-clustered bootstrap, 5000 draws; fixed score"

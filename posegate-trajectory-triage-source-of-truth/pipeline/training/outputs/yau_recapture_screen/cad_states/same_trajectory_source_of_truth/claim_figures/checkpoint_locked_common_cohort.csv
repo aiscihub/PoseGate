@@ -1,6 +1,0 @@
-metric_id,task,score_column,higher_score_means,n,n_proteins,n_retained,n_nonretained,auroc,ci_lo,ci_hi,ci_method,checkpoint_ns
-same_corrected_pose_5ns,same trajectory checkpoint,same_traj_pose_rmsd_5ns_A,late non-retained,52,15,13,39,0.8560157790927022,0.7418300653594772,0.9345238095238095,"protein-clustered bootstrap, 5000 draws; fixed score",5
-same_corrected_pose_10ns,same trajectory checkpoint,same_traj_pose_rmsd_10ns_A,late non-retained,52,15,13,39,0.8875739644970414,0.7710420531849104,0.9712510466507176,"protein-clustered bootstrap, 5000 draws; fixed score",10
-same_corrected_pose_15ns,same trajectory checkpoint,same_traj_pose_rmsd_15ns_A,late non-retained,52,15,13,39,0.883629191321499,0.7636363636363637,0.9683303202479336,"protein-clustered bootstrap, 5000 draws; fixed score",15
-same_corrected_pose_20ns,same trajectory checkpoint,same_traj_pose_rmsd_20ns_A,late non-retained,52,15,13,39,0.8599605522682445,0.7472519841269841,0.9509813925570227,"protein-clustered bootstrap, 5000 draws; fixed score",20
-same_corrected_pose_30ns,same trajectory checkpoint,same_traj_pose_rmsd_30ns_A,late non-retained,52,15,13,39,0.854043392504931,0.7424098320158102,0.9398148148148148,"protein-clustered bootstrap, 5000 draws; fixed score",30

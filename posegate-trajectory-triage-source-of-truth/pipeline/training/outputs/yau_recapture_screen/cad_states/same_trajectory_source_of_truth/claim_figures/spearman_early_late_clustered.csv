@@ -1,2 +1,0 @@
-col_x,col_y,n,n_proteins,spearman_rho,ci_lo,ci_hi,ci_method
-same_traj_pose_rmsd_18_20_A,late_pose_rmsd_median_last30pct_A,52,15,0.727909160761547,0.49076595892533953,0.8853638504384623,"protein-clustered bootstrap, 5000 draws"

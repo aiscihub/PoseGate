@@ -220,7 +220,7 @@ def config_from_mapping(
     _reject_unknown(reference_raw, {"frame"}, "reference")
     reference_frame = int(_require(reference_raw, "frame", "reference"))
     if reference_frame != 0:
-        raise ConfigurationError("version 0.1 requires reference.frame = 0")
+        raise ConfigurationError("reference.frame must be 0")
 
     pbc_raw = _mapping(_require(raw, "pbc", "config"), "pbc")
     _reject_unknown(pbc_raw, {"method", "require_box_vectors"}, "pbc")
@@ -234,7 +234,7 @@ def config_from_mapping(
     if pbc.method not in SUPPORTED_PBC_METHODS:
         raise ConfigurationError(f"unsupported pbc.method: {pbc.method}")
     if not pbc.require_box_vectors:
-        raise ConfigurationError("version 0.1 requires periodic box vectors")
+        raise ConfigurationError("periodic box vectors are required")
 
     checkpoint_raw = _mapping(_require(raw, "checkpoint", "config"), "checkpoint")
     _reject_unknown(
@@ -284,7 +284,7 @@ def config_from_mapping(
         }
     )
     if not measurements.corrected_rmsd:
-        raise ConfigurationError("corrected_rmsd is required in version 0.1")
+        raise ConfigurationError("corrected_rmsd is required")
 
     policy_raw = _mapping(_require(raw, "policy", "config"), "policy")
     shared_keys = {"mode", "type", "feature_names", "score_calibrated"}
@@ -356,7 +356,7 @@ def config_from_mapping(
         )
 
     if policy.mode != "shadow":
-        raise ConfigurationError("version 0.1 supports only policy.mode = shadow")
+        raise ConfigurationError("only policy.mode = shadow is supported")
 
     if policy.type == "standardized_logistic":
         lengths = {

@@ -12,7 +12,6 @@ from posegate.trajectory import DomainProfile, PrefixMeasurement, PrefixSeries
 
 from test_threshold_policy import threshold_mapping  # noqa: F401
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 # Frozen so a later schema change cannot silently alter how a bundled v1 policy
@@ -78,9 +77,9 @@ def sealed_inputs(tmp_path: Path) -> tuple[Path, Path]:
     return topology, trajectory
 
 
-def test_bundled_v1_policies_hash_exactly_as_before() -> None:
+def test_legacy_v1_policies_hash_exactly_as_before() -> None:
     for name, expected in V1_SCIENTIFIC_HASHES.items():
-        config = load_config(ROOT / f"configs/{name}.yaml")
+        config = load_config(ROOT / f"tests/fixtures/legacy/{name}.yaml")
         assert sha256_json(config.scientific_dict()) == expected
 
 
@@ -88,7 +87,7 @@ def test_record_carries_identity_and_named_quality_checks(
     sealed_inputs: tuple[Path, Path],
 ) -> None:
     topology, trajectory = sealed_inputs
-    config = load_config(ROOT / "configs/posegate_5ns_v1.yaml")
+    config = load_config(ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml")
     measurement = synthetic_measurement(topology, trajectory)
     decision = evaluate_policy(config.policy, measurement.policy_measurements())
     record = build_shadow_record(

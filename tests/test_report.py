@@ -12,7 +12,6 @@ from posegate.report import render_record_html, write_record_report
 from test_record_schema import synthetic_measurement
 from test_threshold_policy import threshold_mapping
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -22,7 +21,7 @@ def logistic_record(tmp_path: Path) -> dict:
     trajectory = tmp_path / "trajectory.dcd"
     topology.write_bytes(b"REMARK synthetic\n")
     trajectory.write_bytes(b"synthetic")
-    config = load_config(ROOT / "configs/posegate_5ns_v1.yaml")
+    config = load_config(ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml")
     measurement = synthetic_measurement(topology, trajectory)
     decision = evaluate_policy(config.policy, measurement.policy_measurements())
     return build_shadow_record(

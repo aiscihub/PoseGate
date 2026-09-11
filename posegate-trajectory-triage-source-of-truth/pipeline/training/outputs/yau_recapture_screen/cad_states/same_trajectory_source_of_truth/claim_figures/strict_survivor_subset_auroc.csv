@@ -1,3 +1,0 @@
-metric_id,task,score_column,higher_score_means,n,n_proteins,n_retained,n_nonretained,auroc,ci_lo,ci_hi,ci_method
-same_corrected_pose_full52,same trajectory,same_traj_pose_rmsd_18_20_A,late non-retained,52,15,13,39,0.8599605522682445,0.7472519841269841,0.9509813925570227,"protein-clustered bootstrap, 5000 draws; fixed score"
-same_corrected_pose_strict_survivor,same trajectory,same_traj_pose_rmsd_18_20_A,late non-retained,47,15,12,35,0.8642857142857143,0.7523809523809524,0.9558843785448065,"protein-clustered bootstrap, 5000 draws; fixed score"

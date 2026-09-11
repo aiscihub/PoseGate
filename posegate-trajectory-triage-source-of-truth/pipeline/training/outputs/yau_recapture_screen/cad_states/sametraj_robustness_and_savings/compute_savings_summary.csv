@@ -1,2 +1,0 @@
-n,n_stopped,n_continued,tn,fn,tp,fp,ns_run_all,ns_checkpoint_policy,savings_pct,false_stop_rate,correctly_stopped_rate,random_stop_expected_tn,random_stop_expected_fn
-58,33,25,30,3,14,11,5800.0,3160.0,45.51724137931035,0.17647058823529413,0.7317073170731707,23.373,9.627

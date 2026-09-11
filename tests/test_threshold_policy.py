@@ -10,13 +10,14 @@ from posegate.config import config_from_mapping, config_from_record
 from posegate.exceptions import ConfigurationError
 from posegate.policy import evaluate_policy
 
-
 ROOT = Path(__file__).resolve().parents[1]
 THRESHOLD_A = 2.7634173197224974
 
 
 def threshold_mapping() -> dict:
-    raw = yaml.safe_load((ROOT / "configs/posegate_5ns_v1.yaml").read_text())
+    raw = yaml.safe_load(
+        (ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml").read_text()
+    )
     raw = deepcopy(raw)
     raw["policy_id"] = "example_5ns_rmsd_threshold"
     raw["policy"] = {

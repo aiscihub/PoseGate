@@ -1,8 +1,0 @@
-complex_id,protein,pocket,trajectory_n_frames_audited,trajectory_end_time_ns_audited,late_pose_rmsd_median_last30pct_A,late_centroid_displacement_median_last30pct_A,late_pose_retained_stored_legacy,late_window_coverage_status
-CDR2_CANAL|Milbemycin|pocket14|replica_1,CDR2_CANAL,pocket14,48.0,9.600000028621494,1.074879962365528,0.8188605434657893,1,excluded_incomplete_before_100ns
-MDR1_CRYNH|Milbemycin|pocket12|replica_1,MDR1_CRYNH,pocket12,116.0,23.200000069168613,3.3334946562163865,1.656911458015944,0,excluded_incomplete_before_100ns
-PDR5_YEAST|Milbemycin|pocket14|replica_1,PDR5_YEAST,pocket14,164.0,32.80000009779011,1.884124720328264,1.7100389803368157,1,excluded_incomplete_before_100ns
-PDH1_CANGA|Milbemycin|pocket13|replica_1,PDH1_CANGA,pocket13,166.0,33.20000009898267,2.8354099713704866,2.396582014623337,1,excluded_incomplete_before_100ns
-AFR1|Milbemycin|pocket9|replica_1,AFR1,pocket9,244.0,48.8000001454926,1.1117454132039326,0.5823503368477967,1,excluded_incomplete_before_100ns
-MDR1_TRIRC|Milbemycin|pocket4|replica_1,MDR1_TRIRC,pocket4,402.0,80.40000023970502,2.663221358311114,2.087459903973065,1,excluded_incomplete_before_100ns
-CDR2_CANAL|Milbemycin|pocket8|replica_1,CDR2_CANAL,pocket8,474.0,94.80000000000001,3.34704896579954,2.58812259761551,0,excluded_incomplete_before_100ns

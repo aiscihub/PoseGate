@@ -19,9 +19,9 @@ from .trajectory import PrefixMeasurement
 
 
 SCOPE_WARNING = (
-    "This forecast applies only to continuation of the trajectory already "
-    "observed. It has not been validated for predicting a separately launched "
-    "simulation."
+    "This shadow assessment applies only to the trajectory already observed. "
+    "Advance warning before observable deviation and transfer to an independently "
+    "launched simulation have not been established."
 )
 
 

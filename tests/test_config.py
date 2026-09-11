@@ -7,13 +7,12 @@ import yaml
 from posegate.config import config_from_mapping, config_from_record, load_config
 from posegate.exceptions import ConfigurationError
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_bundled_configs_are_strict_and_round_trip() -> None:
-    five = load_config(ROOT / "configs/posegate_5ns_v1.yaml")
-    twenty = load_config(ROOT / "configs/posegate_20ns_v1.yaml")
+def test_legacy_configs_are_strict_and_round_trip() -> None:
+    five = load_config(ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml")
+    twenty = load_config(ROOT / "tests/fixtures/legacy/posegate_20ns_v1.yaml")
 
     assert five.checkpoint.time_ns == 5.0
     assert five.policy.feature_names == ("corrected_pose_rmsd_mean_angstrom",)
@@ -26,7 +25,9 @@ def test_bundled_configs_are_strict_and_round_trip() -> None:
 
 
 def test_missing_scientific_field_fails_loudly() -> None:
-    raw = yaml.safe_load((ROOT / "configs/posegate_5ns_v1.yaml").read_text())
+    raw = yaml.safe_load(
+        (ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml").read_text()
+    )
     broken = deepcopy(raw)
     del broken["selections"]["ligand"]
     with pytest.raises(ConfigurationError, match="selections.ligand"):
@@ -34,7 +35,9 @@ def test_missing_scientific_field_fails_loudly() -> None:
 
 
 def test_unknown_scientific_field_fails_loudly() -> None:
-    raw = yaml.safe_load((ROOT / "configs/posegate_5ns_v1.yaml").read_text())
+    raw = yaml.safe_load(
+        (ROOT / "tests/fixtures/legacy/posegate_5ns_v1.yaml").read_text()
+    )
     broken = deepcopy(raw)
     broken["checkpoint"]["silent_fallback"] = True
     with pytest.raises(ConfigurationError, match="unknown fields"):
@@ -42,7 +45,9 @@ def test_unknown_scientific_field_fails_loudly() -> None:
 
 
 def test_policy_vector_lengths_must_match() -> None:
-    raw = yaml.safe_load((ROOT / "configs/posegate_20ns_v1.yaml").read_text())
+    raw = yaml.safe_load(
+        (ROOT / "tests/fixtures/legacy/posegate_20ns_v1.yaml").read_text()
+    )
     broken = deepcopy(raw)
     broken["policy"]["coefficients"] = [-1.0]
     with pytest.raises(ConfigurationError, match="vector lengths"):

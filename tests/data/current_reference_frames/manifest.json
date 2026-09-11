@@ -1,0 +1,66 @@
+[
+  {
+    "file": "AFR1_pocket8.npz",
+    "complex_id": "AFR1|Milbemycin|pocket8|replica_1",
+    "sha256": "1ac43c9bfd2cadc33249cbecad5b9e1d03587ca6d92ef64908f790e90396842a",
+    "expected_columns": [
+      "corrected_A",
+      "pbc_naive_A",
+      "ligand_self_A",
+      "translation_A",
+      "reorientation_deg",
+      "image_disagreement_A"
+    ],
+    "frame_indices": [
+      0,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      481,
+      499
+    ],
+    "source_topology_sha256": "bc1600f62612e0934976676ed14fef941ffdf4a922f8f95cfd594de54f149398",
+    "source_all_measured_selected_atoms_sha256": "e1cc654e6180c32ddcef1aae1bc943598c9086061aec126e8b49d6b6e30e1241",
+    "source_frames_csv_sha256": "4f05d71ecef87c57e0b584089708546e6bbf35ba25935d162d5af255811ab312",
+    "scope": "Selected saved frames only, not a complete trajectory or a new simulation"
+  },
+  {
+    "file": "MDR1_TRIRC_pocket15.npz",
+    "complex_id": "MDR1_TRIRC|Milbemycin|pocket15|replica_1",
+    "sha256": "f09acc1caecebbb7de42a000a887349ceb12d0fa6a27169302e3458b51228215",
+    "expected_columns": [
+      "corrected_A",
+      "pbc_naive_A",
+      "ligand_self_A",
+      "translation_A",
+      "reorientation_deg",
+      "image_disagreement_A"
+    ],
+    "frame_indices": [
+      0,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      481,
+      499
+    ],
+    "source_topology_sha256": "0d7c9789b7836f58da2e2da30fa0290ca6e0b122b32b1397471c745f2e9e17bb",
+    "source_all_measured_selected_atoms_sha256": "a587d39991eacd83d5a0869e8f667e30be50566510f9a2cb92e53feb24cced36",
+    "source_frames_csv_sha256": "af0c062f4058e2c4ffca3f35e444a0bc07af1f55f85ad00bcc03f57f6544891c",
+    "scope": "Selected saved frames only, not a complete trajectory or a new simulation"
+  }
+]
