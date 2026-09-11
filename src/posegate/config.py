@@ -15,6 +15,8 @@ from .exceptions import ConfigurationError
 
 SUPPORTED_SCHEMA_VERSION = "1.0"
 SUPPORTED_PBC_METHOD = "per_atom_minimum_image_to_alignment_centroid_v1"
+WHOLE_LIGAND_PBC_METHOD = "whole_ligand_minimum_image_to_alignment_centroid_v2"
+SUPPORTED_PBC_METHODS = {SUPPORTED_PBC_METHOD, WHOLE_LIGAND_PBC_METHOD}
 SUPPORTED_POLICY_TYPES = ("standardized_logistic", "threshold_rule")
 SUPPORTED_STOP_DIRECTION = "greater_than"
 SUPPORTED_TIE_RULE = "no_stop"
@@ -87,6 +89,13 @@ class Checkpoint:
 
 
 @dataclass(frozen=True)
+class Timing:
+    """Nominal saving interval; floating DCD timestamps do not select frames."""
+
+    frame_interval_ns: float
+
+
+@dataclass(frozen=True)
 class Measurements:
     corrected_rmsd: bool
     centroid_displacement: bool
@@ -148,6 +157,7 @@ class PoseGateConfig:
     provenance: Mapping[str, Any]
     configuration_sha256: str
     applicability: Applicability | None = None
+    timing: Timing | None = None
 
     def scientific_dict(self) -> dict[str, Any]:
         value = asdict(self)
@@ -158,6 +168,8 @@ class PoseGateConfig:
         }
         if value.get("applicability") is None:
             value.pop("applicability", None)
+        if value.get("timing") is None:
+            value.pop("timing", None)
         return value
 
 
@@ -178,6 +190,7 @@ def config_from_mapping(
             "outcome",
             "provenance",
             "applicability",
+            "timing",
         },
         "config",
     )
@@ -218,7 +231,7 @@ def config_from_mapping(
             "pbc.require_box_vectors",
         ),
     )
-    if pbc.method != SUPPORTED_PBC_METHOD:
+    if pbc.method not in SUPPORTED_PBC_METHODS:
         raise ConfigurationError(f"unsupported pbc.method: {pbc.method}")
     if not pbc.require_box_vectors:
         raise ConfigurationError("version 0.1 requires periodic box vectors")
@@ -429,6 +442,27 @@ def config_from_mapping(
             )
         applicability = Applicability(max_ligand_diameter_box_fraction=fraction)
 
+    timing = None
+    if raw.get("timing") is not None:
+        timing_raw = _mapping(raw["timing"], "timing")
+        _reject_unknown(timing_raw, {"frame_interval_ns"}, "timing")
+        interval = _finite_float(_require(timing_raw, "frame_interval_ns", "timing"),
+                                 "timing.frame_interval_ns")
+        if interval <= 0:
+            raise ConfigurationError("timing.frame_interval_ns must be positive")
+        timing = Timing(frame_interval_ns=interval)
+        for boundary in (checkpoint.window_start_ns, checkpoint.window_end_ns,
+                         outcome.window_start_ns, outcome.window_end_ns):
+            if abs(round(boundary / interval) * interval - boundary) > 1e-8:
+                raise ConfigurationError("window endpoints must lie on the nominal frame grid")
+    if pbc.method == WHOLE_LIGAND_PBC_METHOD:
+        if timing is None:
+            raise ConfigurationError("whole-ligand v2 requires explicit nominal timing")
+        if applicability is None or applicability.max_ligand_diameter_box_fraction >= 0.5:
+            raise ConfigurationError("whole-ligand v2 requires a ligand diameter limit below 0.5")
+    elif timing is not None:
+        raise ConfigurationError("legacy v1 timing must remain unchanged")
+
     provenance = _mapping(_require(raw, "provenance", "config"), "provenance")
     return PoseGateConfig(
         schema_version=schema_version,
@@ -443,6 +477,7 @@ def config_from_mapping(
         provenance=dict(provenance),
         configuration_sha256=configuration_sha256,
         applicability=applicability,
+        timing=timing,
     )
 
 

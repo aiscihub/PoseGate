@@ -11,7 +11,7 @@ import warnings
 import MDAnalysis as mda
 import numpy as np
 
-from .config import PoseGateConfig
+from .config import PoseGateConfig, SUPPORTED_PBC_METHOD, WHOLE_LIGAND_PBC_METHOD
 from .exceptions import (
     CheckpointNotReady,
     InputValidationError,
@@ -21,6 +21,7 @@ from .geometry import (
     FrameGeometry,
     frame_relative_geometry,
     protein_relative_coordinates,
+    validate_raw_ligand_wholeness,
     zero_geometry,
 )
 
@@ -59,6 +60,7 @@ class PrefixSeries:
     frame_relative_reorientation_degrees: tuple[float, ...]
     internal_deformation_angstrom: tuple[float, ...]
     in_feature_window: tuple[bool, ...]
+    pbc_naive_pose_rmsd_angstrom: tuple[float, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -98,6 +100,10 @@ class PrefixMeasurement:
     internal_deformation_mean_angstrom: float
     domain_profile: DomainProfile
     series: PrefixSeries
+    pbc_naive_pose_rmsd_mean_angstrom: float | None = None
+    ligand_self_aligned_rmsd_mean_angstrom: float | None = None
+    coordinate_method: str = SUPPORTED_PBC_METHOD
+    timing_method: str = "dcd_interval_v1"
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -123,6 +129,8 @@ class LateOutcome:
     late_pose_rmsd_median_angstrom: float
     retained_rmsd_threshold_angstrom: float
     pose_retained: bool
+    pbc_naive_rmsd_median_angstrom: float | None = None
+    ligand_self_aligned_rmsd_median_angstrom: float | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -163,6 +171,32 @@ def _required_frames(checkpoint_ns: float, dt_ns: float) -> int:
     return required
 
 
+def _measurement_interval_ns(universe: mda.Universe, config: PoseGateConfig) -> float:
+    observed = _frame_interval_ns(universe)
+    if config.timing is None:
+        return observed
+    nominal = config.timing.frame_interval_ns
+    if abs(observed - nominal) > 1e-5:
+        raise InputValidationError(
+            f"observed cadence {observed:g} ns does not match nominal {nominal:g} ns"
+        )
+    return nominal
+
+
+def nominal_window_mask(frame_count: int, start_ns: float, end_ns: float, dt_ns: float) -> np.ndarray:
+    """Select (start, end] by frame indices, with frame 0 saved at one interval."""
+    if not np.isfinite([start_ns, end_ns, dt_ns]).all() or not 0 <= start_ns < end_ns or dt_ns <= 0:
+        raise InputValidationError("invalid nominal measurement window")
+    start, end = round(start_ns / dt_ns), round(end_ns / dt_ns)
+    if max(abs(start * dt_ns - start_ns), abs(end * dt_ns - end_ns)) > 1e-8:
+        raise InputValidationError("window endpoints do not lie on the nominal frame grid")
+    if end > frame_count:
+        raise CheckpointNotReady("nominal measurement window is incomplete")
+    result = np.zeros(frame_count, dtype=bool)
+    result[start:end] = True
+    return result
+
+
 def _selections(
     universe: mda.Universe, config: PoseGateConfig
 ) -> tuple[mda.core.groups.AtomGroup, mda.core.groups.AtomGroup]:
@@ -197,7 +231,7 @@ def inspect_inputs(
     trajectory_path = Path(trajectory).resolve()
     universe = _universe(topology_path, trajectory_path)
     alignment, ligand = _selections(universe, config)
-    dt_ns = _frame_interval_ns(universe)
+    dt_ns = _measurement_interval_ns(universe, config)
     available = len(universe.trajectory)
     required = _required_frames(config.checkpoint.time_ns, dt_ns)
     universe.trajectory[0]
@@ -234,39 +268,56 @@ def _measure_trace(
     profile: bool = False,
 ) -> tuple[np.ndarray, list[FrameGeometry], str | None, DomainProfile | None]:
     alignment, ligand = _selections(universe, config)
-    dt_ns = _frame_interval_ns(universe)
+    dt_ns = _measurement_interval_ns(universe, config)
     reference_frame_centered: np.ndarray | None = None
     reference_ligand_relative: np.ndarray | None = None
+    reference_raw: np.ndarray | None = None
     times: list[float] = []
     values: list[FrameGeometry] = []
     digest = hashlib.sha256() if digest_prefix else None
     max_diameter = 0.0
     min_box_length = float("inf")
+    max_diameter_fraction = 0.0
+    current = config.pbc.method == WHOLE_LIGAND_PBC_METHOD
+    if digest is not None and current:
+        digest.update(np.asarray(alignment.indices, dtype="<i8").tobytes())
+        digest.update(np.asarray(ligand.indices, dtype="<i8").tobytes())
 
-    for frame_index, ts in enumerate(universe.trajectory):
-        if frame_limit is not None and frame_index >= frame_limit:
-            break
+    count = len(universe.trajectory) if frame_limit is None else frame_limit
+    for frame_index in range(count):
+        ts = universe.trajectory[frame_index]
         time_ns = (frame_index + 1) * dt_ns
         box = np.asarray(ts.dimensions)
         frame_positions = np.asarray(alignment.positions)
         ligand_positions = np.asarray(ligand.positions)
         if digest is not None:
+            if current:
+                digest.update(np.asarray([frame_index], dtype="<i8").tobytes())
             digest.update(np.asarray(box, dtype="<f4").tobytes())
             digest.update(np.asarray(frame_positions, dtype="<f4").tobytes())
             digest.update(np.asarray(ligand_positions, dtype="<f4").tobytes())
 
+        if current:
+            frame_positions = frame_positions.astype(float)
+            ligand_positions = ligand_positions.astype(float)
+            validate_raw_ligand_wholeness(
+                ligand_positions, box,
+                max_diameter_box_fraction=config.applicability.max_ligand_diameter_box_fraction,
+            )
+        raw = ligand_positions - frame_positions.mean(axis=0)
         frame_centered, ligand_relative = protein_relative_coordinates(
-            frame_positions, ligand_positions, box
+            frame_positions, ligand_positions, box, method=config.pbc.method
         )
         if profile:
             spread = ligand_relative[:, None, :] - ligand_relative[None, :, :]
-            max_diameter = max(
-                max_diameter, float(np.sqrt((spread * spread).sum(axis=-1)).max())
-            )
+            diameter = float(np.sqrt((spread * spread).sum(axis=-1)).max())
+            max_diameter = max(max_diameter, diameter)
             min_box_length = min(min_box_length, float(np.asarray(box)[:3].min()))
+            max_diameter_fraction = max(max_diameter_fraction, diameter / float(np.asarray(box)[:3].min()))
         if frame_index == config.reference_frame:
             reference_frame_centered = frame_centered.copy()
             reference_ligand_relative = ligand_relative.copy()
+            reference_raw = raw.copy()
             geometry = zero_geometry()
         else:
             if reference_frame_centered is None or reference_ligand_relative is None:
@@ -276,6 +327,8 @@ def _measure_trace(
                 reference_frame_centered,
                 ligand_relative,
                 reference_ligand_relative,
+                raw_ligand_relative=raw,
+                reference_raw_ligand_relative=reference_raw,
             )
         times.append(time_ns)
         values.append(geometry)
@@ -284,7 +337,7 @@ def _measure_trace(
         domain = DomainProfile(
             max_ligand_diameter_angstrom=max_diameter,
             min_box_length_angstrom=min_box_length,
-            ligand_diameter_box_fraction=max_diameter / min_box_length,
+            ligand_diameter_box_fraction=(max_diameter_fraction if current else max_diameter / min_box_length),
         )
     return (
         np.asarray(times, dtype=float),
@@ -305,7 +358,7 @@ def measure_prefix(
     trajectory_path = Path(trajectory).resolve()
     universe = _universe(topology_path, trajectory_path)
     alignment, ligand = _selections(universe, config)
-    dt_ns = _frame_interval_ns(universe)
+    dt_ns = _measurement_interval_ns(universe, config)
     available = len(universe.trajectory)
     available_end_ns = available * dt_ns
     if require_pre_outcome and available_end_ns >= config.outcome.window_start_ns:
@@ -327,9 +380,13 @@ def measure_prefix(
         raise InputValidationError(
             f"prefix read was incomplete: used={len(times)}, required={required}"
         )
-    window = (times > config.checkpoint.window_start_ns) & (
-        times <= config.checkpoint.window_end_ns + TIME_TOLERANCE_NS
-    )
+    if config.timing is not None:
+        window = nominal_window_mask(len(times), config.checkpoint.window_start_ns,
+                                     config.checkpoint.window_end_ns, dt_ns)
+    else:
+        window = (times > config.checkpoint.window_start_ns) & (
+            times <= config.checkpoint.window_end_ns + TIME_TOLERANCE_NS
+        )
     if not window.any():
         raise InputValidationError("configured checkpoint window contains no frames")
     if domain is None:
@@ -351,6 +408,7 @@ def measure_prefix(
         [item.frame_relative_reorientation_radians for item in geometries]
     )
     internal = np.asarray([item.internal_deformation_angstrom for item in geometries])
+    naive = np.asarray([item.pbc_naive_pose_rmsd_angstrom for item in geometries], dtype=float)
     return PrefixMeasurement(
         topology_path=str(topology_path),
         trajectory_path=str(trajectory_path),
@@ -383,7 +441,12 @@ def measure_prefix(
             ),
             internal_deformation_angstrom=tuple(float(item) for item in internal),
             in_feature_window=tuple(bool(item) for item in window),
+            pbc_naive_pose_rmsd_angstrom=tuple(float(item) for item in naive),
         ),
+        pbc_naive_pose_rmsd_mean_angstrom=float(np.mean(naive[window])),
+        ligand_self_aligned_rmsd_mean_angstrom=float(np.mean(internal[window])),
+        coordinate_method=config.pbc.method,
+        timing_method="nominal_frame_indices_v2" if config.timing is not None else "dcd_interval_v1",
     )
 
 
@@ -395,7 +458,7 @@ def measure_late_outcome(
     topology_path = Path(topology).resolve()
     trajectory_path = Path(trajectory).resolve()
     universe = _universe(topology_path, trajectory_path)
-    dt_ns = _frame_interval_ns(universe)
+    dt_ns = _measurement_interval_ns(universe, config)
     available = len(universe.trajectory)
     end_ns = available * dt_ns
     if end_ns < config.outcome.window_end_ns - TIME_TOLERANCE_NS:
@@ -404,11 +467,17 @@ def measure_late_outcome(
             f"required={config.outcome.window_end_ns:g} ns"
         )
     times, geometries, _, _ = _measure_trace(
-        universe, config, frame_limit=None, digest_prefix=False
+        universe, config,
+        frame_limit=(_required_frames(config.outcome.window_end_ns, dt_ns) if config.timing is not None else None),
+        digest_prefix=False,
     )
-    late = (times > config.outcome.window_start_ns) & (
-        times <= config.outcome.window_end_ns + TIME_TOLERANCE_NS
-    )
+    if config.timing is not None:
+        late = nominal_window_mask(len(times), config.outcome.window_start_ns,
+                                   config.outcome.window_end_ns, dt_ns)
+    else:
+        late = (times > config.outcome.window_start_ns) & (
+            times <= config.outcome.window_end_ns + TIME_TOLERANCE_NS
+        )
     if not late.any():
         raise InputValidationError("configured late outcome window contains no frames")
     rmsd = np.asarray([item.corrected_pose_rmsd_angstrom for item in geometries])
@@ -423,4 +492,8 @@ def measure_late_outcome(
         late_pose_rmsd_median_angstrom=late_median,
         retained_rmsd_threshold_angstrom=threshold,
         pose_retained=late_median < threshold,
+        pbc_naive_rmsd_median_angstrom=float(np.median(np.asarray(
+            [item.pbc_naive_pose_rmsd_angstrom for item in geometries], dtype=float)[late])),
+        ligand_self_aligned_rmsd_median_angstrom=float(np.median(np.asarray(
+            [item.internal_deformation_angstrom for item in geometries])[late])),
     )

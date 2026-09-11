@@ -120,11 +120,8 @@ def validate_shadow_record(
         prefix.corrected_centroid_displacement_mean_angstrom
         - float(stored_measurement["corrected_centroid_displacement_mean_angstrom"])
     )
-    # The feature window is selected from frame times accumulated off the
-    # trajectory's stored timestep. Two files can hold identical coordinates and
-    # still disagree about a frame sitting exactly on the window boundary, which
-    # moves the policy input without moving a single atom. Report the window
-    # explicitly so such a delta is attributable instead of mysterious.
+    # Legacy records use DCD-derived times; current records use nominal indices.
+    # Preserve the sealed contract and expose the window used on revalidation.
     window_cross_check = {
         "frames_in_record": stored_measurement.get("window_frame_count"),
         "frames_on_revalidation": prefix.window_frame_count,

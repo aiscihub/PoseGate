@@ -46,7 +46,10 @@ def _feature_values(
     missing = [name for name in policy.feature_names if name not in measurements]
     if missing:
         raise ConfigurationError(f"policy measurements are missing: {missing}")
-    return {name: float(measurements[name]) for name in policy.feature_names}
+    values = {name: float(measurements[name]) for name in policy.feature_names}
+    if not all(math.isfinite(value) for value in values.values()):
+        raise ConfigurationError("policy measurements must be finite")
+    return values
 
 
 def _evaluate_standardized_logistic(

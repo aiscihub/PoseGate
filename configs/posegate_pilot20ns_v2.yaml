@@ -1,0 +1,44 @@
+schema_version: "1.0"
+policy_id: "same_trajectory_5ns_rmsd_threshold_v2_pilot20ns"
+selections:
+  protein: "protein"
+  alignment_atoms: "protein and name CA"
+  ligand: "resname UNK and not name H*"
+reference:
+  frame: 0
+pbc:
+  method: "whole_ligand_minimum_image_to_alignment_centroid_v2"
+  require_box_vectors: true
+timing:
+  frame_interval_ns: 0.2
+checkpoint:
+  time_ns: 5.0
+  window_start_ns: 3.0
+  window_end_ns: 5.0
+measurements:
+  corrected_rmsd: true
+  centroid_displacement: true
+  frame_relative_reorientation: true
+  internal_deformation: true
+policy:
+  mode: "shadow"
+  type: "threshold_rule"
+  feature_names:
+    - "corrected_pose_rmsd_mean_angstrom"
+  stop_threshold_angstrom: 2.7634173197224974
+  stop_direction: "greater_than"
+  tie_rule: "no_stop"
+  score_calibrated: false
+applicability:
+  max_ligand_diameter_box_fraction: 0.45
+outcome:
+  window_start_ns: 14.0
+  window_end_ns: 20.0
+  retained_rmsd_threshold_angstrom: 3.0
+provenance:
+  analysis_id: "prospective_pilot_short_horizon"
+  outcome_definition_id: "short_horizon_pose_retained_rmsd_v2"
+  source_policy_id: "same_trajectory_5ns_rmsd_threshold_v2"
+  source_policy: "shadow-test-archive/v2/frozen_policy/same_trajectory_5ns_rmsd_threshold_v2.json"
+  source_core_sha256: "25e0ff5363aba5e2933df3a9306ed297bb065b37f81b8eb34981eb6b50947004"
+  interpretation: "Same frozen early score and threshold; a separately identified 20 ns evaluation horizon."

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "posegate-md"
-version = "0.1.0.dev0"
-description = "Coordinate-corrected, same-trajectory forecasting for molecular-dynamics runs"
+version = "0.2.0.dev0"
+description = "Protein-relative ligand-pose measurement and same-trajectory shadow triage"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{name = "PoseGate-MD contributors"}]
@@ -21,6 +21,7 @@ Repository = "https://github.com/aiscihub/PoseGate"
 
 [project.optional-dependencies]
 test = ["pytest>=8,<9"]
+paper = ["pandas>=2,<3", "scipy>=1.13,<2"]
 
 [project.scripts]
 posegate = "posegate.cli:main"
@@ -30,6 +31,8 @@ where = ["src"]
 
 [tool.setuptools.data-files]
 "share/posegate-md/configs" = [
+  "configs/posegate_5ns_v2.yaml",
+  "configs/posegate_pilot20ns_v2.yaml",
   "configs/posegate_5ns_v1.yaml",
   "configs/posegate_20ns_v1.yaml",
 ]
